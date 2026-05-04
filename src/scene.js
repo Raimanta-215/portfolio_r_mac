@@ -71,7 +71,7 @@ scene.add(axesHelper);
 
 // 3. Lumière NÉON BLEU par la fenêtre
 // PointLight(couleur, intensité, distance, decay)
-const windowBlueLight = new THREE.SpotLight(0x0044ff, 700, 50, Math.PI / 5, 0.8, 2);// 👉 AJUSTE CES COORDONNÉES selon la position de ta fenêtre dans ta chambre
+const windowBlueLight = new THREE.SpotLight(0x124e8e, 300, 50, Math.PI / 5, 0.8, 2);// 👉 AJUSTE CES COORDONNÉES selon la position de ta fenêtre dans ta chambre
 windowBlueLight.position.set(-15, 12, -5);
 windowBlueLight.target.position.set(-8.06, 4.42, -1.51);
 windowBlueLight.castShadow = true;
@@ -79,7 +79,7 @@ windowBlueLight.shadow.bias = -0.001; // Évite les petits bugs d'ombres
 scene.add(windowBlueLight);
 
 // 4. Lumière NÉON ROUGE par la fenêtre (légèrement décalée pour le contraste)
-const windowRedLight = new THREE.SpotLight(0xff0000, 700, 50, Math.PI / 6, 0.8, 2);
+const windowRedLight = new THREE.SpotLight(0x68063c, 150, 30, Math.PI / 6, 0.8, 2);
 // 👉 AJUSTE CES COORDONNÉES pour qu'elle soit proche du bleu mais crée un dégradé
 windowRedLight.position.set(-10, 12, -15); 
 windowRedLight.castShadow = true;

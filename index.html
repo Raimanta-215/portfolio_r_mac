@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        <!-- Styles Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Script Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
     <div id="site-classique">
@@ -22,6 +26,7 @@
             <a href="#projet">Dashboard</a>
             <a href="#activites">Activités</a>
             <a href="#bilan">Bilan</a>
+            <a href="#parcours">Parcours</a> <!-- Nouveau lien -->
             <a href="retro.html">Boot 3D</a>
         </nav>
 
@@ -52,6 +57,61 @@
                 </div>
             </div>
         </section>
+        
+
+        <section id="parcours">
+            <h2>Mes Projets & Parcours</h2>
+            <p class="info-note">Faites glisser pour explorer mes réalisations.</p>
+
+            <!-- Slider container -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- Projet 1 -->
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <span class="hours-tag">Cybersécurité</span>
+                            <h3>Cyber Challenge</h3>
+                            <p>Participation au CSCBE : Web Security, Cryptographie et gestion du stress en équipe.</p>
+                            <div class="skills-grid"><span>CTF</span><span>Sécurité Offensive</span></div>
+                        </div>
+                    </div>
+                    <!-- Projet 2 -->
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <span class="hours-tag">Réseau</span>
+                            <h3>Infrastructure CISCO</h3>
+                            <p>Configuration de VLANs et NAT sur routeurs physiques pour isoler les flux critiques.</p>
+                            <div class="skills-grid"><span>Cisco IOS</span><span>VLAN</span></div>
+                        </div>
+                    </div>
+                    <!-- Projet 3 -->
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <span class="hours-tag">IA & Dev</span>
+                            <h3>Hackathon BeCentral</h3>
+                            <p>Création d'un prototype d'IA locale avec méthodes Agiles pour l'opérateur "Hey".</p>
+                            <div class="skills-grid"><span>LLM</span><span>Agile</span></div>
+                        </div>
+                    </div>
+                    <!-- Projet 4 -->
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <span class="hours-tag">3D Design</span>
+                            <h3>Portfolio Blender</h3>
+                            <p>Modélisation 3D et intégration Three.js pour une expérience utilisateur immersive.</p>
+                            <div class="skills-grid"><span>3D</span><span>Three.js</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation buttons (placés à l'extérieur du wrapper pour ne pas gêner) -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        
 
         <section id="activites">
             <h2>Activités d'Acquisition de Compétences</h2>

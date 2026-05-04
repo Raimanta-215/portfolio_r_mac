@@ -204,6 +204,8 @@ description: `
     `    }
 ];
 
+console.log('%c site.js chargé', 'color: #38bdf8; font-weight: bold;');
+
 // --- AFFICHAGE DANS LE TABLEAU ---
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.getElementById('table-body');
@@ -238,15 +240,10 @@ document.addEventListener('DOMContentLoaded', () => {
     portfolioActivities.forEach(item => {
         const reflexionEl = document.getElementById(`contenu-reflexion-${item.id}`);
         if (reflexionEl && item.description) {
-            // Extraire le texte après "Analyse réflexive" jusqu'au prochain <h3>
-            const parts = item.description.split('<h3>');
-            parts.forEach(part => {
-                    const text = portfolioActivities[item.id - 1]?.description;
-                    if (text && text.length > 10) {
-                        reflexionEl.innerHTML = text;
-                    }
-                }
-            );
+            const text = portfolioActivities[item.id - 1]?.description;
+            if (text && text.length > 10) {
+                reflexionEl.innerHTML = text;
+            }
         }
     });
 
@@ -266,3 +263,48 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.body.appendChild(chatContainer);
 });
+
+function initProjectSlider() {
+
+    if (typeof Swiper === 'undefined') {
+
+        console.warn('Swiper non chargé.');
+
+        return;
+
+    }
+
+
+
+    new Swiper('.mySwiper', {
+
+        slidesPerView: 1,
+
+        spaceBetween: 24,
+
+        loop: true,
+
+        grabCursor: true,
+
+        pagination: {
+
+            el: '.swiper-pagination',
+
+            clickable: true,
+
+        },
+
+        navigation: {
+
+            nextEl: '.swiper-button-next',
+
+            prevEl: '.swiper-button-prev',
+
+        },
+
+    });
+
+}
+
+window.addEventListener('load', initProjectSlider);
+
