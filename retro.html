@@ -8,31 +8,326 @@
 </head>
 <body>
 
-
-
     <div id="loading-screen">
-        <span id="loading-text">CHARGEMENT EN COURS... 
-            
-        </span>
+        <span id="loading-text">CHARGEMENT EN COURS... </span>
         <img src="img/gifCat.gif" alt="Chat mignon qui charge" class="cat-loader">
-    
-        <p style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #aaaaaa; text-align: center; max-width: 80vw; margin: 0;">            Le saviez-vous ? Pendant 20 ans, il était illégal de mettre des mini-jeux dans les chargements à cause d'un brevet.
-            C'est pour ça que les jeux comme Skyrim vous laissaient juste faire tourner des objets 3D !        
+        <p style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #aaaaaa; text-align: center; max-width: 80vw; margin: 0;">
+            Le saviez-vous ? Pendant 20 ans, il était illégal de mettre des mini-jeux dans les chargements à cause d'un brevet.
+            C'est pour ça que les jeux comme Skyrim vous laissaient juste faire tourner des objets 3D !
         </p>
     </div>
 
+    <a href="index.html" id="retour-menu" class="return-btn">Retour au Menu Principal</a>
 
-    
-    <a href ="index.html" id="retour-menu" class="return-btn">Retour au Menu Principal</a>
-    
+    <!-- ============================================================
+         PC INTERFACE — Style Windows 2000 avec carousel des activités
+         ============================================================ -->
     <div id="pc-interface" class="hidden-interface" style="display: none;">
-        <div class="interface-content">
-            <button id="close-pc" class="close-btn"> Fermer</button>
-            <h2>Mon Ordinateur</h2>
-            <p>Bienvenue sur mon portfolio ! Tu peux mettre des liens, des vidéos, etc.</p>
-        </div>
-    </div>
+        <div class="win2k-window">
 
+            <!-- Barre de titre Windows 2000 -->
+            <div class="win2k-titlebar">
+                <div class="win2k-titlebar-left">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABmJLR0QA/wD/AP+gvaeTAAAAi0lEQVQokWNgYGD4z8DAwMCAAkzSSBiHgYGBgRGXAgZcijEMxlKIYTCGQgyDsRRiGIyhEMNgLIUYBmMoxDAYSyGGwRgKMQzGUohhMIZCDIOxFGIYjKEQw2AshRgGYyjEMBhLIYbBGAoxDMZSiGEwhkIMg7EUYhiMoRDDYCyFGAZjKMQwGEshBgCCpRD/oieVbgAAAABJRU5ErkJggg==" alt="" class="win2k-icon">
+                    <span>Portfolio — Activités de Compétences</span>
+                </div>
+                <div class="win2k-titlebar-controls">
+                    <button class="win2k-btn-min" title="Réduire">_</button>
+                    <button class="win2k-btn-max" title="Agrandir">□</button>
+                    <button id="close-pc" class="win2k-btn-close" title="Fermer">✕</button>
+                </div>
+            </div>
+
+            <!-- Barre de menus -->
+            <div class="win2k-menubar">
+                <span class="win2k-menu-item">Fichier</span>
+                <span class="win2k-menu-item">Édition</span>
+                <span class="win2k-menu-item">Affichage</span>
+                <span class="win2k-menu-item">Aide</span>
+            </div>
+
+            <!-- Barre d'adresse style Explorateur -->
+            <div class="win2k-addressbar">
+                <span class="win2k-address-label">Adresse :</span>
+                <div class="win2k-address-input">C:\Portfolio\Activités\</div>
+                <button class="win2k-go-btn">OK</button>
+            </div>
+
+            <!-- Corps principal -->
+            <div class="win2k-body">
+
+                <!-- Panneau gauche (arborescence) -->
+                <div class="win2k-sidebar">
+                    <div class="win2k-sidebar-title">Dossiers</div>
+                    <ul class="win2k-tree">
+                        <li class="tree-item tree-root">📁 Portfolio</li>
+                        <li class="tree-item tree-child active" id="sidebar-active">📄 Activités (7)</li>
+                        <li class="tree-item tree-child">📄 Projets</li>
+                        <li class="tree-item tree-child">📄 CV.pdf</li>
+                        <li class="tree-item tree-child">🔒 Confidentiel</li>
+                    </ul>
+                    <div class="win2k-sidebar-divider"></div>
+                    <div class="win2k-sidebar-info">
+                        <div class="win2k-file-icon">📂</div>
+                        <div class="win2k-file-details">
+                            <strong>Activités</strong><br>
+                            7 éléments<br>
+                            61 heures validées
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu principal : Carousel -->
+                <div class="win2k-content">
+                    <!-- Compteur de slides -->
+                    <div class="carousel-header">
+                        <span class="carousel-counter">Thème <span id="current-slide">1</span> sur <span id="total-slides">7</span></span>
+                        <div class="carousel-dots" id="carousel-dots"></div>
+                    </div>
+
+                    <!-- Slides container -->
+                    <div class="carousel-viewport">
+                        <div class="carousel-track" id="carousel-track">
+
+                            <!-- SLIDE 1 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 1</div>
+                                    <h2 class="slide-title">🖧 Infrastructures Réseaux & Systèmes</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 10 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:100%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type formation">Formation</span>
+                                            <span>CISCO Intro to Cybersecurity</span>
+                                            <span class="act-hours">6h</span>
+                                        </div>
+                                        <div class="activity-row">
+                                            <span class="act-type technique">Technique</span>
+                                            <span>Labo Matériel Réseau (VLAN, NAT, Routeurs)</span>
+                                            <span class="act-hours">4h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            Avant ces activités, je voyais la sécurité comme une simple couche logicielle. La configuration de matériel physique (routeurs, switchs) m'a fait réaliser que la moindre erreur peut compromettre toute une infrastructure. La certification CISCO fut le premier pas vers des certifications plus avancées.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">Cisco IOS</span><span class="tag">VLAN</span><span class="tag">NAT</span><span class="tag">CIA Triad</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 2 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 2</div>
+                                    <h2 class="slide-title">🔐 Sécurité Informatique</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 10 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:100%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type challenge">Challenge</span>
+                                            <span>Cyber Challenge Belgium — Part 1 (CSCBE)</span>
+                                            <span class="act-hours">10h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            Cette immersion en CTF (Web Security, Cryptographie, travail en équipe) m'a confrontée à la logique réelle des attaques. Certains challenges semblaient évidents alors que je cherchais trop en profondeur. Une leçon précieuse sur la méthodologie et la gestion du stress sous pression.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">CTF</span><span class="tag">XSS</span><span class="tag">SQL Injection</span><span class="tag">Cryptographie</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 3 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 3</div>
+                                    <h2 class="slide-title">⚔️ Cybersécurité Avancée & CTF</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 10 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:100%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type challenge">Challenge</span>
+                                            <span>Cyber Challenge Part 2 — Individuel (03/2026)</span>
+                                            <span class="act-hours">10h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            Mode individuel cette fois : j'ai dû structurer mes recherches seule. Découverte du Reverse Engineering et de l'Assembleur. Les obstacles techniques (bugs de plateforme) m'ont appris que la persévérance est indispensable dans ce métier.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">Reverse Engineering</span><span class="tag">Assembleur</span><span class="tag">Autonomie</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 4 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 4</div>
+                                    <h2 class="slide-title">☁️ Cloud Computing & Services Managés</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 6 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:60%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type conference">Conférence</span>
+                                            <span>M365 & Azure Infrastructure (Axentys)</span>
+                                            <span class="act-hours">2h</span>
+                                        </div>
+                                        <div class="activity-row">
+                                            <span class="act-type conference">Conférence</span>
+                                            <span>FOSDEM — Open Source ULB</span>
+                                            <span class="act-hours">4h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            Ma vision du Cloud dépassait enfin le simple stockage de fichiers. Ces événements m'ont montré que le Cloud est une extension des réseaux locaux, nécessitant une rigueur équivalente au matériel physique. La polyvalence propriétaire/open source est un atout professionnel clé.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">Azure</span><span class="tag">Microsoft 365</span><span class="tag">Open Source</span><span class="tag">FOSDEM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 5 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 5</div>
+                                    <h2 class="slide-title">🚀 Développement & Collaboration Agile</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 10 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:100%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type hackathon">Hackathon</span>
+                                            <span>BeCentral — Prototype IA locale pour "Hey" (03/2025)</span>
+                                            <span class="act-hours">10h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            Créer un prototype fonctionnel d'IA locale en équipe sous méthode Agile en quelques heures. L'expérience m'a appris à prioriser, à itérer rapidement et à conserver une vision produit cohérente même sous contrainte de temps extrême.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">LLM</span><span class="tag">Agile</span><span class="tag">Prototype</span><span class="tag">Teamwork</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 6 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 6</div>
+                                    <h2 class="slide-title">🎨 Infographie & Technologies Multimédia</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 5 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:50%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type formation">Formation</span>
+                                            <span>Formation Blender 3D — Modélisation & Rendu</span>
+                                            <span class="act-hours">5h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            Blender m'a donné une approche concrète de la 3D : modélisation, textures, éclairage. Cette compétence s'est directement connectée à ce portfolio immersif Three.js. La créativité technique est devenue un atout que je n'avais pas anticipé dans mon parcours IT.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">Blender</span><span class="tag">Three.js</span><span class="tag">3D Modeling</span><span class="tag">WebGL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 7 -->
+                            <div class="retro-slide">
+                                <div class="slide-inner">
+                                    <div class="slide-badge">Thème 7</div>
+                                    <h2 class="slide-title">🤝 Soft Skills & Éthique Professionnelle</h2>
+                                    <div class="slide-hours-bar">
+                                        <span class="hours-label">⏱ 10 heures validées</span>
+                                        <div class="progress-outer"><div class="progress-inner" style="width:100%"></div></div>
+                                    </div>
+                                    <div class="slide-activities">
+                                        <div class="activity-row">
+                                            <span class="act-type conference">Conférence</span>
+                                            <span>Conférence Philippe Boxho (Médecine Légale)</span>
+                                            <span class="act-hours">2h</span>
+                                        </div>
+                                        <div class="activity-row">
+                                            <span class="act-type experience">Expérience</span>
+                                            <span>Job Étudiant — Environnement Professionnel</span>
+                                            <span class="act-hours">8h</span>
+                                        </div>
+                                    </div>
+                                    <div class="slide-reflexion">
+                                        <div class="reflexion-titlebar">📝 Analyse Réflexive</div>
+                                        <div class="reflexion-body">
+                                            La médecine légale et l'informatique partagent la même logique d'investigation : observer, isoler, rester objectif. Mon job étudiant m'a appris les règles du monde du travail réel. Ces expériences renforcent ma maturité professionnelle et mon envie d'aller au-delà du rôle de simple technicienne.
+                                        </div>
+                                    </div>
+                                    <div class="slide-tags">
+                                        <span class="tag">Communication</span><span class="tag">Éthique</span><span class="tag">Rigueur</span><span class="tag">Médecine Légale</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div><!-- /.carousel-track -->
+                    </div><!-- /.carousel-viewport -->
+
+                    <!-- Contrôles navigation -->
+                    <div class="carousel-controls">
+                        <button class="retro-nav-btn" id="prev-slide" title="Précédent">◀ Précédent</button>
+                        <div class="carousel-info">
+                            <span id="slide-theme-name">Infrastructures Réseaux & Systèmes</span>
+                        </div>
+                        <button class="retro-nav-btn" id="next-slide" title="Suivant">Suivant ▶</button>
+                    </div>
+
+                </div><!-- /.win2k-content -->
+            </div><!-- /.win2k-body -->
+
+            <!-- Barre de statut -->
+            <div class="win2k-statusbar">
+                <span class="status-item">✔ 7 objets</span>
+                <span class="status-item">61h validées</span>
+                <span class="status-item" id="status-slide-info">Thème 1/7</span>
+                <span class="status-right">EPHEC TI — Portfolio MACEDON Raisa</span>
+            </div>
+
+        </div><!-- /.win2k-window -->
+    </div><!-- /#pc-interface -->
+
+
+    <!-- Interface Portable (inchangée) -->
     <div id="portable-interface" class="hidden-interface" style="display: none;">
         <div class="interface-content">
             <button id="close-portable" class="close-btn"> Fermer</button>
@@ -49,7 +344,120 @@
             }
         }
     </script>
-    <script type="module" src="src/main.js"></script> 
+    <script type="module" src="src/main.js"></script>
+
+    <!-- ============================================================
+         JS CAROUSEL RÉTRO — indépendant de site.js
+         ============================================================ -->
+    <script>
+    (function() {
+        const THEMES = [
+            "Infrastructures Réseaux & Systèmes",
+            "Sécurité Informatique",
+            "Cybersécurité Avancée & CTF",
+            "Cloud Computing & Services Managés",
+            "Développement & Collaboration Agile",
+            "Infographie & Technologies Multimédia",
+            "Soft Skills & Éthique Professionnelle"
+        ];
+
+        let currentIndex = 0;
+        const totalSlides = THEMES.length;
+
+        const track       = document.getElementById('carousel-track');
+        const currentEl   = document.getElementById('current-slide');
+        const totalEl     = document.getElementById('total-slides');
+        const themeNameEl = document.getElementById('slide-theme-name');
+        const statusEl    = document.getElementById('status-slide-info');
+        const dotsEl      = document.getElementById('carousel-dots');
+        const prevBtn     = document.getElementById('prev-slide');
+        const nextBtn     = document.getElementById('next-slide');
+
+        // Initialise les points de navigation
+        function buildDots() {
+            dotsEl.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const d = document.createElement('button');
+                d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                d.title = THEMES[i];
+                d.addEventListener('click', () => goTo(i));
+                dotsEl.appendChild(d);
+            }
+        }
+
+        function updateUI() {
+            // Déplace le track
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            // Met à jour les compteurs
+            currentEl.textContent = currentIndex + 1;
+            totalEl.textContent   = totalSlides;
+            themeNameEl.textContent = THEMES[currentIndex];
+            statusEl.textContent  = `Thème ${currentIndex + 1}/${totalSlides}`;
+
+            // Met à jour les points
+            document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentIndex);
+            });
+
+            // Active/désactive les boutons aux extrémités
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === totalSlides - 1;
+        }
+
+        function goTo(index) {
+            currentIndex = Math.max(0, Math.min(index, totalSlides - 1));
+            updateUI();
+        }
+
+        prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+        // Navigation au clavier (uniquement quand le panel est ouvert)
+        document.addEventListener('keydown', (e) => {
+            const panel = document.getElementById('pc-interface');
+            if (panel && panel.style.display !== 'none') {
+                if (e.key === 'ArrowLeft')  goTo(currentIndex - 1);
+                if (e.key === 'ArrowRight') goTo(currentIndex + 1);
+            }
+        });
+
+        // Swipe tactile
+        let touchStartX = 0;
+        const viewport = document.querySelector('.carousel-viewport');
+        if (viewport) {
+            viewport.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            viewport.addEventListener('touchend', e => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) goTo(diff > 0 ? currentIndex + 1 : currentIndex - 1);
+            });
+        }
+
+        // Fermeture du panel
+        const closeBtn = document.getElementById('close-pc');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                const panel = document.getElementById('pc-interface');
+                if (panel) { panel.style.display = 'none'; }
+            });
+        }
+
+        // Init
+        buildDots();
+        updateUI();
+
+        // Réinitialise au slide 1 à chaque ouverture du panel
+        const observer = new MutationObserver(() => {
+            const panel = document.getElementById('pc-interface');
+            if (panel && panel.style.display !== 'none') {
+                goTo(0);
+            }
+        });
+        const panel = document.getElementById('pc-interface');
+        if (panel) observer.observe(panel, { attributes: true, attributeFilter: ['style'] });
+
+    })();
+    </script>
 
 </body>
 </html>
