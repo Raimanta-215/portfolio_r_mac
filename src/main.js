@@ -3,6 +3,8 @@ import { scene, camera, renderer, controls } from './scene.js';
 import { loadRoomAndEnvironment } from './loader.js';
 import { setupInteractions, cameraMovement } from './interaction.js';
 import { setupActionButtons } from './actions.js';
+import './win2000.js';
+import './win11.js';
 
 // ✅ AJOUT : C'est cette ligne qui lance vraiment le téléchargement de la chambre 3D !
 loadRoomAndEnvironment(scene, camera, renderer);
@@ -73,6 +75,10 @@ function animate() {
             else if (cameraMovement.currentObject === 'Object_7') {
                 const portableInterface = document.getElementById('portable-interface');
                 if (portableInterface) portableInterface.style.display = 'flex';
+            }
+            else if (cameraMovement.currentObject === 'Plane034_01_-_Default_0') {
+                const win11Interface = document.getElementById('win11-interface');
+                if (win11Interface) win11Interface.style.display = 'flex';
             }
             
             // On stoppe le mouvement

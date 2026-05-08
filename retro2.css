@@ -1,0 +1,292 @@
+
+/* === RESET LOCAL === */
+#win11-root *, #win11-root *::before, #win11-root *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Conteneur global */
+#win11-root {
+width: min(900px, 94vw);
+height: min(600px, 84vh);
+border-radius: 12px;
+overflow: hidden;
+display: flex;
+flex-direction: column;
+font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.30);
+position: relative;
+--w11-accent: #0078d4;
+--w11-accent-light: #60cdff;
+--w11-accent-dark: #005a9e;
+--w11-glass: rgba(255,255,255,0.72);
+--w11-glass-border: rgba(255,255,255,0.55);
+--w11-taskbar: rgba(30,30,30,0.90);
+}
+
+/* Fond bureau */
+#win11-desktop {
+flex: 1;
+position: relative;
+background:
+    radial-gradient(ellipse 90% 80% at 20% 110%, #0a3d6b 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 82% -5%, #3a0ca3 0%, transparent 55%),
+    radial-gradient(ellipse 80% 90% at 50% 50%, #0d2137 0%, #06101c 100%);
+display: flex;
+flex-direction: column;
+overflow: hidden;
+}
+#win11-desktop::before {
+content: '';
+position: absolute; inset: 0;
+background:
+    radial-gradient(ellipse 60% 40% at 30% 65%, rgba(0,120,212,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 70% 25%, rgba(96,205,255,0.10) 0%, transparent 60%);
+pointer-events: none;
+}
+
+/* Zone de travail */
+#win11-work { flex: 1; position: relative; overflow: hidden; }
+
+/* Icônes bureau */
+.w11-desk-icon {
+position: absolute;
+display: flex; flex-direction: column; align-items: center; gap: 3px;
+padding: 6px; border-radius: 4px; cursor: pointer; width: 68px;
+transition: background 0.12s;
+}
+.w11-desk-icon:hover { background: rgba(255,255,255,0.12); }
+.w11-desk-icon .ico { font-size: 28px; line-height: 1; }
+.w11-desk-icon .lbl { font-size: 10px; color: #fff; text-align: center; line-height: 1.3; text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
+
+/* === FENÊTRE === */
+#win11-window {
+position: absolute;
+top: 20px; left: 50%; transform: translateX(-50%);
+width: min(820px, 90%);
+height: min(480px, calc(100% - 30px));
+background: rgba(243,243,243,0.82);
+backdrop-filter: blur(40px) saturate(180%);
+-webkit-backdrop-filter: blur(40px) saturate(180%);
+border-radius: 8px;
+border: 1px solid rgba(255,255,255,0.60);
+box-shadow: 0 8px 32px rgba(0,0,0,0.30), 0 2px 6px rgba(0,0,0,0.15);
+display: flex; flex-direction: column;
+overflow: hidden;
+}
+
+/* Titre */
+.w11-titlebar {
+height: 32px;
+background: rgba(243,243,243,0.90);
+display: flex; align-items: center;
+padding: 0 8px 0 12px; gap: 7px;
+border-radius: 8px 8px 0 0; flex-shrink: 0;
+}
+.w11-title-ico { font-size: 14px; }
+.w11-title-text { flex: 1; font-size: 12px; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.w11-controls { display: flex; }
+.w11-ctrl {
+width: 46px; height: 32px; border: none; background: transparent;
+cursor: pointer; display: flex; align-items: center; justify-content: center;
+transition: background 0.1s; border-radius: 0; font-size: 10px; color: #1a1a1a;
+}
+.w11-ctrl:hover { background: rgba(0,0,0,0.07); }
+.w11-ctrl.w11-close:hover { background: #c42b1c; color: #fff; }
+.w11-ctrl svg { width: 10px; height: 10px; }
+
+/* Ribbon */
+.w11-ribbon {
+height: 40px;
+background: rgba(243,243,243,0.80);
+border-bottom: 1px solid rgba(0,0,0,0.08);
+display: flex; align-items: center; padding: 0 8px; gap: 3px; flex-shrink: 0;
+}
+.w11-rb {
+height: 28px; padding: 0 7px; border-radius: 4px; border: none;
+background: transparent; cursor: pointer; font-size: 11px; color: #1a1a1a;
+display: flex; align-items: center; gap: 4px; transition: background 0.1s;
+}
+.w11-rb:hover { background: rgba(0,0,0,0.07); }
+.w11-rb-sep { width: 1px; height: 18px; background: rgba(0,0,0,0.12); margin: 0 2px; }
+
+/* Barre d'adresse */
+.w11-addr {
+height: 30px;
+background: rgba(243,243,243,0.75);
+border-bottom: 1px solid rgba(0,0,0,0.06);
+display: flex; align-items: center; padding: 0 8px; gap: 5px; flex-shrink: 0;
+}
+.w11-nav {
+width: 22px; height: 22px; border-radius: 4px; border: none;
+background: transparent; cursor: pointer; font-size: 12px; color: #444;
+display: flex; align-items: center; justify-content: center; transition: background 0.1s;
+}
+.w11-nav:hover { background: rgba(0,0,0,0.07); }
+.w11-path {
+flex: 1; height: 22px;
+background: rgba(255,255,255,0.85);
+border: 1px solid rgba(0,0,0,0.14); border-radius: 4px;
+padding: 0 7px; font-size: 11px; color: #1a1a1a;
+display: flex; align-items: center; gap: 3px;
+}
+.w11-path .chev { color: #666; font-size: 9px; }
+.w11-search-bar {
+width: 150px; height: 22px;
+background: rgba(255,255,255,0.75); border: 1px solid rgba(0,0,0,0.12); border-radius: 4px;
+padding: 0 7px; font-size: 11px; color: #888; display: flex; align-items: center; gap: 4px;
+}
+
+/* Corps */
+.w11-body { display: flex; flex: 1; overflow: hidden; }
+
+/* Nav gauche */
+.w11-nav-pane {
+width: 180px; flex-shrink: 0;
+background: rgba(243,243,243,0.60);
+border-right: 1px solid rgba(0,0,0,0.07);
+overflow-y: auto; padding: 6px 0;
+}
+.w11-nav-section { font-size: 10px; font-weight: 600; color: #666; padding: 7px 10px 3px; letter-spacing: 0.3px; }
+.w11-nav-item {
+display: flex; align-items: center; gap: 7px;
+padding: 4px 10px; font-size: 12px; color: #1a1a1a;
+cursor: pointer; border-radius: 4px; margin: 1px 4px; transition: background 0.1s;
+}
+.w11-nav-item:hover { background: rgba(0,0,0,0.06); }
+.w11-nav-item.active { background: rgba(0,120,212,0.12); color: #005a9e; font-weight: 500; }
+
+/* Contenu */
+.w11-content { flex: 1; overflow-y: auto; padding: 10px; background: rgba(255,255,255,0.55); }
+
+.w11-sec-hdr { display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+.w11-sec-hdr h3 { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+.w11-badge { font-size: 9px; background: #0078d4; color: #fff; border-radius: 10px; padding: 1px 6px; font-weight: 500; }
+
+.w11-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+.w11-table th { font-size: 10px; font-weight: 600; color: #555; text-align: left; padding: 3px 7px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+.w11-table td { font-size: 11px; color: #1a1a1a; padding: 4px 7px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+.w11-table tr:hover td { background: rgba(0,120,212,0.06); }
+.w11-table tr.sel td { background: rgba(0,120,212,0.13); }
+
+.w11-pill {
+display: inline-block; font-size: 9px; font-weight: 500;
+padding: 2px 7px; border-radius: 10px; color: #fff; white-space: nowrap;
+}
+.w11-pill.formation   { background: #107c41; }
+.w11-pill.challenge   { background: #a4262c; }
+.w11-pill.conference  { background: #4f6bed; }
+.w11-pill.hackathon   { background: #ca5010; }
+.w11-pill.technique   { background: #6b7b00; }
+.w11-pill.experience  { background: #7719aa; }
+
+/* Panneau détail */
+.w11-detail {
+width: 190px; flex-shrink: 0;
+background: rgba(243,243,243,0.55);
+border-left: 1px solid rgba(0,0,0,0.07);
+padding: 10px; overflow-y: auto;
+display: flex; flex-direction: column; gap: 8px;
+}
+.w11-detail-title { font-size: 10px; font-weight: 600; color: #666; margin-bottom: 3px; }
+.w11-detail-val { font-size: 11px; color: #1a1a1a; line-height: 1.5; }
+.w11-detail-big { font-size: 20px; font-weight: 600; color: #005a9e; }
+.w11-detail-sub { font-size: 9px; color: #666; }
+.w11-prog { height: 4px; border-radius: 2px; background: rgba(0,0,0,0.10); overflow: hidden; margin-top: 3px; }
+.w11-prog-fill { height: 100%; background: linear-gradient(90deg, #0078d4, #60cdff); border-radius: 2px; }
+.w11-divider { height: 1px; background: rgba(0,0,0,0.08); }
+
+/* Statut */
+.w11-status {
+height: 22px;
+background: rgba(243,243,243,0.80);
+border-top: 1px solid rgba(0,0,0,0.07);
+display: flex; align-items: center; padding: 0 8px; gap: 10px;
+font-size: 10px; color: #555; flex-shrink: 0;
+border-radius: 0 0 8px 8px;
+}
+
+/* === TASKBAR === */
+#win11-taskbar {
+height: 44px;
+background: rgba(30,30,30,0.90);
+backdrop-filter: blur(30px) saturate(160%);
+-webkit-backdrop-filter: blur(30px) saturate(160%);
+border-top: 1px solid rgba(255,255,255,0.08);
+display: flex; align-items: center; justify-content: center;
+gap: 3px; padding: 0 10px; position: relative; flex-shrink: 0;
+}
+.w11-taskbar-center { display: flex; align-items: center; gap: 2px; }
+.w11-tb-btn {
+width: 38px; height: 38px; border-radius: 6px; border: none;
+background: transparent; cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+position: relative; transition: background 0.12s;
+}
+.w11-tb-btn:hover { background: rgba(255,255,255,0.10); }
+.w11-tb-btn .ico { font-size: 18px; line-height: 1; }
+.w11-tb-btn::after {
+content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
+width: 4px; height: 4px; border-radius: 50%; background: transparent; transition: all 0.12s;
+}
+.w11-tb-btn.running::after { background: rgba(255,255,255,0.75); }
+.w11-tb-btn.active::after { background: #60cdff; width: 14px; border-radius: 2px; }
+.w11-tb-search {
+width: 180px; height: 30px;
+background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px;
+display: flex; align-items: center; gap: 5px; padding: 0 9px;
+cursor: text; margin: 0 3px; transition: background 0.12s;
+}
+.w11-tb-search:hover { background: rgba(255,255,255,0.14); }
+.w11-tb-search span { font-size: 11px; color: rgba(255,255,255,0.50); }
+.w11-taskbar-right {
+position: absolute; right: 10px;
+display: flex; align-items: center; gap: 4px;
+}
+.w11-sys {
+display: flex; align-items: center; gap: 3px; padding: 3px 5px; border-radius: 4px;
+cursor: pointer; transition: background 0.12s;
+}
+.w11-sys:hover { background: rgba(255,255,255,0.10); }
+.w11-sys .ico { font-size: 12px; color: rgba(255,255,255,0.80); }
+.w11-clock {
+display: flex; flex-direction: column; align-items: flex-end;
+padding: 2px 5px; border-radius: 4px; cursor: pointer; transition: background 0.12s;
+}
+.w11-clock:hover { background: rgba(255,255,255,0.10); }
+.w11-clock .t { font-size: 11px; color: rgba(255,255,255,0.90); line-height: 1.2; }
+.w11-clock .d { font-size: 9px; color: rgba(255,255,255,0.60); line-height: 1.2; }
+
+/* Menu Démarrer */
+#win11-startmenu {
+display: none; position: absolute; bottom: 48px;
+left: 50%; transform: translateX(-50%);
+width: 520px;
+background: rgba(28,28,28,0.90);
+backdrop-filter: blur(60px) saturate(200%);
+-webkit-backdrop-filter: blur(60px) saturate(200%);
+border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+box-shadow: 0 16px 48px rgba(0,0,0,0.55); z-index: 300; overflow: hidden;
+}
+#win11-startmenu.open { display: block; }
+.sm-searchbar {
+margin: 14px 14px 8px;
+height: 34px;
+background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.14); border-radius: 6px;
+display: flex; align-items: center; gap: 7px; padding: 0 10px;
+color: rgba(255,255,255,0.40); font-size: 12px; cursor: text;
+}
+.sm-stitle { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.50); padding: 6px 14px 3px; }
+.sm-apps {
+display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; padding: 0 10px 6px;
+}
+.sm-app {
+display: flex; flex-direction: column; align-items: center; gap: 3px;
+padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.1s;
+}
+.sm-app:hover { background: rgba(255,255,255,0.09); }
+.sm-app .ico { font-size: 24px; }
+.sm-app .lbl { font-size: 9px; color: rgba(255,255,255,0.80); text-align: center; line-height: 1.2; }
+.sm-div { height: 1px; background: rgba(255,255,255,0.08); margin: 3px 14px 6px; }
+.sm-foot { display: flex; align-items: center; justify-content: space-between; padding: 6px 14px 10px; }
+.sm-user-info { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,0.85); font-size: 11px; }
+.sm-avatar { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #0078d4, #9c27b0); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #fff; }
+.sm-pow { width: 28px; height: 28px; border-radius: 5px; border: none; background: transparent; cursor: pointer; font-size: 16px; color: rgba(255,255,255,0.65); display: flex; align-items: center; justify-content: center; transition: background 0.1s; }
+.sm-pow:hover { background: rgba(255,255,255,0.09); }

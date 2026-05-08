@@ -17,7 +17,12 @@ const interactiveObjects = [
     'MonitorOn_MonitorOn_0', 
     'Chassi_Material004_0',
     'Chassi_plastico_preto010_0', // J'ai ajouté tes nouveaux objets
-    'Chassi_Acrilico002_0'
+    'Chassi_Acrilico002_0',
+    'defaultMaterial007_2',
+    'Star_Destroyer_Dark_Gray_0',
+    'Star_Destroyer_Light_Gray_0',
+    'Plane034_01_-_Default_0',
+
 ];
 
 // ✅ NOUVEAU : La fonction centrale qui gère le mouvement
@@ -46,6 +51,16 @@ export function focusOnObject(targetName, targetMesh) {
         case 'Chassi_PlasticoPreto018_0':
         case 'Chassi_Acrilico002_0':
             cameraMovement.target = new THREE.Vector3(targetPos.x - 3, targetPos.y + 1, targetPos.z - 1);
+            break;
+        case 'defaultMaterial007_2':
+            cameraMovement.target = new THREE.Vector3(targetPos.x - 2, targetPos.y + 2, targetPos.z - 3);
+            break;
+        case 'Star_Destroyer_Dark_Gray_0':
+        case 'Star_Destroyer_Light_Gray_0':
+            cameraMovement.target = new THREE.Vector3(targetPos.x, targetPos.y + 5, targetPos.z - 10);
+            break;
+        case 'Plane034_01_-_Default_0':
+            cameraMovement.target = new THREE.Vector3(targetPos.x, targetPos.y + 10, targetPos.z - 15);
             break;
         default:
             console.log(`Cible 3D non gérée pour la caméra : ${targetName}`);

@@ -3,9 +3,9 @@
    ========================================= */
 :root {
     --primary: #0f172a;        /* Bleu nuit profond */
-    --secondary: #310b1b;      /* Gris ardoise foncé */
+    --secondary: #fb8acd;      /* Gris ardoise foncé */
     --tertiary: #2c0912;       /* Gris moyen */
-    --accent: #0ea5e9;         /* Bleu ciel professionnel */
+    --accent: #c3eafc;         /* Bleu ciel professionnel */
     --accent-hover: #2c0912;   /* Bleu clair */
     --text-light: #f1f5f9;    /* Blanc cassé */
     --text-muted: #94a3b8;     /* Gris clair */
