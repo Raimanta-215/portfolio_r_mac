@@ -3,15 +3,15 @@
    ========================================= */
 :root {
     --primary: #0f172a;        /* Bleu nuit profond */
-    --secondary: #1e293b;      /* Gris ardoise foncé */
-    --tertiary: #334155;       /* Gris moyen */
+    --secondary: #310b1b;      /* Gris ardoise foncé */
+    --tertiary: #2c0912;       /* Gris moyen */
     --accent: #0ea5e9;         /* Bleu ciel professionnel */
-    --accent-hover: #38bdf8;   /* Bleu clair */
+    --accent-hover: #2c0912;   /* Bleu clair */
     --text-light: #f1f5f9;    /* Blanc cassé */
     --text-muted: #94a3b8;     /* Gris clair */
     --border: #475569;        /* Bordures subtiles */
     --card-bg: #1e293b;       /* Fond des cartes */
-    --success: #10b981;       /* Vert succès */
+    --success: #0a0b0b;       /* Vert succès */
     --warning: #f59e0b;       /* Orange avertissement */
 }
 
@@ -222,9 +222,79 @@ section h2::after {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-light);
-    margin-bottom: 1rem;
+    margin-bottom: 0.35rem;
     border: none;
     padding: 0;
+}
+
+.card-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    max-width: 56ch;
+}
+
+.profile-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card > *:not(.profile-photo) {
+    position: relative;
+    z-index: 1;
+}
+
+.profile-photo {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: min(300px, 55%);
+    max-height: calc(100% - 5rem); /* S'arrête avant le bouton téléchargement */
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 20px 0 0 0;
+    z-index: 0;
+    opacity: 0.88;
+    mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 30%);
+    mask-composite: intersect;
+    -webkit-mask-image:  linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 30%);
+    -webkit-mask-composite: source-in;
+    margin: 0;
+}
+
+.journey-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.journey-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(71, 85, 105, 0.35);
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.journey-item h4 {
+    margin-bottom: 0.45rem;
+    color: var(--accent);
+    font-size: 1rem;
+}
+
+.journey-item p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
 }
 
 .skills-grid {
@@ -465,6 +535,15 @@ footer p {
     
     .grid-container {
         grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        padding-bottom: 0;
+    }
+
+    .profile-photo {
+        width: min(160px, 45%);
+        max-height: calc(100% - 8rem);
     }
 }
 

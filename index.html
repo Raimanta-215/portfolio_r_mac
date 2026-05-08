@@ -17,16 +17,15 @@
 <body>
     <div id="site-classique">
         <header>
-            <p class="tagline">MACEDON RAISA</p>
-            <h1>Portfolio </h1>
-            <p>Spécialisation : <strong>Cybersécurité & Télécoms</strong></p>
+            <p class="tagline">Portfolio</p>
+            <h1>MACEDON RAISA </h1>
         </header>
 
         <nav>
-            <a href="#projet">Dashboard</a>
+            <a href="#projet">Profile</a>
             <a href="#activites">Activités</a>
             <a href="#bilan">Bilan</a>
-            <a href="#parcours">Parcours</a> <!-- Nouveau lien -->
+            <a href="#projets">Projets académiques</a>
             <a href="retro.html">Boot 3D</a>
         </nav>
 
@@ -34,34 +33,52 @@
             <h2>À Propos</h2>
             <div class="grid-container">
                 <div class="card" style="--index: 0">
-                    <h3>Compétences Techniques</h3>
-                    <div class="skills-grid">
-                        <span>Network Analysis</span>
-                        <span>Cyber Defense</span>
-                        <span>Sécurité Infra</span>
+                    <div class="card-header-row">
+                        <div>
+                            <h3>Compétences Techniques</h3>
+                            <p class="card-subtitle">Expertise hybride en cybersécurité, réseau, télécoms et développement.</p>
+                        </div>
                     </div>
-                    <p><strong>Objectif :</strong> Devenir expert en infrastructure sécurisée.</p>
+                    <div class="skills-grid">
+                        <span>Développement web/app (React, Node.js, Java, Python, bases de données)</span>
+                        <span>Administration et configuration réseau (Cisco, Nginx, DHCP, DNS)</span>
+                        <span>Électronique</span>
+                        <span>Télécommunication</span>
+                        <span>Méthodes DevSecOps et Agile</span>
+                        <span>Sécurité réseau</span>
+                    </div>
+                    <p><strong>Objectif :</strong> Étudiante en technologies de l'informatique, j'ai acquis une vision globale des différents domaines informatiques et de leurs interactions. Mon intérêt porte notamment sur la sécurité, la gestion des réseaux, l'électronique et les télécommunications, tout en gardant une sensibilité forte pour les applications web et les services utilisateurs. Curieuse et motivée, je réalise des projets concrets qui témoignent de ma passion et de mon apprentissage continu.</p>
                 </div>
-                <div class="card" style="--index: 1">
-                    <h3>Parcours</h3>
-                    <div class="skills-grid">
-                        <span>EPHEC TI</span>
-                        <span>BA3</span>
+                <div class="card profile-card" style="--index: 1">
+                    <div class="card-header-row">
+                        <div>
+                            <h3>Parcours</h3>
+                            <p class="card-subtitle">Formation académique et expérience professionnelle.</p>
+                        </div>
                     </div>
-                    <p><strong>Formation :</strong> Technologies de l'Informatique</p>
-               
+                    <div class="journey-grid">
+                        <div class="journey-item">
+                            <h4>EPHEC</h4>
+                            <p>Bachelier en Technologies de l'Informatique — BA3</p>
+                        </div>
+                        <div class="journey-item">
+                            <h4>ULB</h4>
+                            <p>Bachelier en Architecture — BA3</p>
+                        </div>
+                    </div>
                     <a href="cv.pdf" download="CV_MACEDON_Raisa.pdf" class="download-btn">
                         <span>Télécharger mon CV</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     </a>
+                    <img src="img/moi.png" alt="Portrait de Raisa Macedon" class="profile-photo">
+
                 </div>
+
             </div>
         </section>
-        
 
-        <section id="parcours">
-            <h2>Mes Projets & Parcours</h2>
-            <p class="info-note">Faites glisser pour explorer mes réalisations.</p>
+        <section id="projets">
+            <h2>Mes Projets académiques</h2>
 
             <!-- Slider container -->
             <div class="swiper mySwiper">
@@ -69,37 +86,47 @@
                     <!-- Projet 1 -->
                     <div class="swiper-slide">
                         <div class="card">
-                            <span class="hours-tag">Cybersécurité</span>
-                            <h3>Cyber Challenge</h3>
-                            <p>Participation au CSCBE : Web Security, Cryptographie et gestion du stress en équipe.</p>
-                            <div class="skills-grid"><span>CTF</span><span>Sécurité Offensive</span></div>
+                            <span class="hours-tag">Electronique</span>
+                            <h3>Projet 1 : Voiture téléguidée</h3>
+                            <p>Création d'une petite voiture from scratch contrôlées via une télécommande, assistée d'un site web relié.</p>
+                            <div class="skills-grid"><span>micro python</span><span>web</span><span>éléctronique</span></div>
                         </div>
                     </div>
                     <!-- Projet 2 -->
                     <div class="swiper-slide">
                         <div class="card">
-                            <span class="hours-tag">Réseau</span>
-                            <h3>Infrastructure CISCO</h3>
-                            <p>Configuration de VLANs et NAT sur routeurs physiques pour isoler les flux critiques.</p>
-                            <div class="skills-grid"><span>Cisco IOS</span><span>VLAN</span></div>
+                            <span class="hours-tag">Développement</span>
+                            <h3>Projet 2 : Programme de Gestion de Détective</h3>
+                            <p>Développement d'un programme pour un détective fictif l'aidant à gérer entièrement ses équipes et enquêtes.</p>
+                            <div class="skills-grid"><span>python</span><span>mySQL</span></div>
                         </div>
                     </div>
                     <!-- Projet 3 -->
                     <div class="swiper-slide">
                         <div class="card">
-                            <span class="hours-tag">IA & Dev</span>
-                            <h3>Hackathon BeCentral</h3>
-                            <p>Création d'un prototype d'IA locale avec méthodes Agiles pour l'opérateur "Hey".</p>
-                            <div class="skills-grid"><span>LLM</span><span>Agile</span></div>
+                            <span class="hours-tag">Développement</span>
+                            <h3>Projet 3 : Site Web de Gestion de Tournoi eSport</h3>
+                            <p>Développement d'un site web pour la gestion d'un tournois eSport organisé dans l'école.</p>
+                            <div class="skills-grid"><span>full stack MERN</span><span>hébergement sur VPS</span></div>
                         </div>
                     </div>
                     <!-- Projet 4 -->
                     <div class="swiper-slide">
                         <div class="card">
-                            <span class="hours-tag">3D Design</span>
-                            <h3>Portfolio Blender</h3>
-                            <p>Modélisation 3D et intégration Three.js pour une expérience utilisateur immersive.</p>
-                            <div class="skills-grid"><span>3D</span><span>Three.js</span></div>
+                            <span class="hours-tag">Développement</span>
+                            <h3>Projet 4 : Application de Messagerie E2EE</h3>
+                            <p>Développement d'une application mobile de messagerie et réseau social E2EE.</p>
+                            <div class="skills-grid"><span>Kotlin</span><span>Security</span></div>
+                        </div>
+                    </div>
+                    <!-- Projet 5 -->
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <span class="hours-tag">Infographie</span>
+                            <h3>Projet 5 : Identification du Type de Clavier</h3>
+                            <p>Développer un système capable d'identifier le type de clavier utilisé (AZERTY, QWERTY US,etc.) sur base d’un traitement d’image du
+clavier..</p>
+                            <div class="skills-grid"><span>traitement d'image</span><span>OpenCV</span></div>
                         </div>
                     </div>
                 </div>
