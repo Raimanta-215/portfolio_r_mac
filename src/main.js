@@ -5,6 +5,8 @@ import { setupInteractions, cameraMovement } from './interaction.js';
 import { setupActionButtons } from './actions.js';
 import './win2000.js';
 import './win11.js';
+import './skyrim.js';
+
 
 // ✅ AJOUT : C'est cette ligne qui lance vraiment le téléchargement de la chambre 3D !
 loadRoomAndEnvironment(scene, camera, renderer);
@@ -21,6 +23,46 @@ window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth * pixelScale, window.innerHeight * pixelScale, false);
+});
+
+// Ajouter des boutons de fermeture aux divs GIF
+const gifIds = ['parkour', 'lego', 'elec', 'sword'];
+gifIds.forEach(id => {
+    const div = document.getElementById(id);
+    if (!div) return;
+
+    // Pour parkour, la fermeture est gérée par skyrim.js via l'overlay
+    // On écoute juste l'event custom pour resetter la caméra
+    if (id === 'parkour') return;
+
+    // Créer le bouton de fermeture pour les autres GIFs
+    const closeBtn = document.createElement('button');
+    closeBtn.textContent = '✕';
+    closeBtn.style.position = 'absolute';
+    closeBtn.style.top = '10px';
+    closeBtn.style.right = '10px';
+    closeBtn.style.backgroundColor = '#ff4444';
+    closeBtn.style.color = 'white';
+    closeBtn.style.border = 'none';
+    closeBtn.style.borderRadius = '5px';
+    closeBtn.style.padding = '5px 10px';
+    closeBtn.style.cursor = 'pointer';
+    closeBtn.style.fontSize = '16px';
+    closeBtn.style.zIndex = '100001';
+    closeBtn.addEventListener('click', () => {
+        div.style.display = 'none';
+        cameraMovement.currentObject = null;
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+        cameraMovement.lookAt.set(-1, 4.8, -1.5);
+    });
+    div.appendChild(closeBtn);
+});
+
+// Reset caméra quand l'overlay Skyrim se ferme (Échap ou clic dehors)
+document.addEventListener('skyrim:closed', () => {
+    cameraMovement.currentObject = null;
+    cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+    cameraMovement.lookAt.set(-1, 4.8, -1.5);
 });
 
 
@@ -76,11 +118,18 @@ function animate() {
                 const portableInterface = document.getElementById('portable-interface');
                 if (portableInterface) portableInterface.style.display = 'flex';
             }
-            else if (cameraMovement.currentObject === 'Plane034_01_-_Default_0') {
-                const win11Interface = document.getElementById('win11-interface');
-                if (win11Interface) win11Interface.style.display = 'flex';
+            else if (cameraMovement.currentObject === 'defaultMaterial007_2') {
+                const parkourInterface = document.getElementById('parkour');
+                if (parkourInterface) parkourInterface.style.display = 'flex';
             }
-            
+            else if (cameraMovement.currentObject === 'Star_Destroyer_Dark_Gray_0' || cameraMovement.currentObject === 'Star_Destroyer_Light_Gray_0') {
+                const starDestroyerInterface = document.getElementById('lego');
+                if (starDestroyerInterface) starDestroyerInterface.style.display = 'flex';
+            }
+            else if (cameraMovement.currentObject === 'Chassi_Material004_0' || cameraMovement.currentObject === 'Chassi_plastico_preto010_0' || cameraMovement.currentObject === 'Chassi_PlasticoPreto018_0' || cameraMovement.currentObject === 'Chassi_Acrilico002_0') {
+                const chassiInterface = document.getElementById('elec');
+                if (chassiInterface) chassiInterface.style.display = 'flex';
+            }
             // On stoppe le mouvement
             cameraMovement.target = null; 
         }

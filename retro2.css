@@ -1,4 +1,3 @@
-
 /* === RESET LOCAL === */
 #win11-root *, #win11-root *::before, #win11-root *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -290,3 +289,297 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
 .sm-avatar { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #0078d4, #9c27b0); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #fff; }
 .sm-pow { width: 28px; height: 28px; border-radius: 5px; border: none; background: transparent; cursor: pointer; font-size: 16px; color: rgba(255,255,255,0.65); display: flex; align-items: center; justify-content: center; transition: background 0.1s; }
 .sm-pow:hover { background: rgba(255,255,255,0.09); }
+
+/* Conteneur principal */
+/* ============================================================
+   SKYRIM MAP SIMPLE — Fenêtre compact style Windows
+   ============================================================ */
+
+.skyrim-window {
+    position: relative;
+    width: 70vw;
+    max-width: 700px;
+    height: 60vh;
+    max-height: 500px;
+   /* background: rgba(0, 0, 0, 0.95); */
+    border-radius: 12px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+/* ============================================================
+   SKYRIM MAP SIMPLE — Fenêtre compact
+   ============================================================ */
+ 
+.skyrim-map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+ 
+.base-map {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    border-radius: 8px;
+}
+ 
+.overlay-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+ 
+.overlay-gif img {
+    width: 100px;
+    height: auto;
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+ 
+.skyrim-map-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 8, 4, 0.75);
+    border: 1px solid rgba(200, 160, 60, 0.55);
+    color: rgba(220, 180, 80, 0.90);
+    font-size: 9px;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    text-transform: uppercase;
+    animation: skm-hint-pulse 2s ease-in-out infinite;
+    pointer-events: none;
+}
+ 
+@keyframes skm-hint-pulse {
+    0%, 100% { opacity: 0.6; }
+    50%       { opacity: 1; }
+}
+ 
+/* --- Overlay principal --- */
+#skyrim-menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+ 
+#skyrim-menu-overlay.open {
+    pointer-events: all;
+    opacity: 1;
+}
+ 
+/* Vignette : assombrit légèrement les bords, transparent au centre */
+.skm-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 90% 90% at center,
+        transparent 40%,
+        rgba(0, 0, 0, 0.28) 70%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
+    pointer-events: none;
+}
+ 
+/* --- Panel central --- */
+.skm-panel {
+    position: relative;
+    z-index: 1;
+    width:  min(840px, 88vw);
+    height: min(580px, 84vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 22px 14px;
+    /* Transparent : la carte est visible directement, sans fond noir */
+    background: transparent;
+    /* Bordure or subtile */
+    border: 1px solid rgba(195, 155, 55, 0.45);
+    box-shadow:
+        0 0 0 1px rgba(90, 65, 15, 0.55),
+        0 0 40px rgba(200, 155, 50, 0.08);
+    border-radius: 2px;
+
+    /* Animation d'entrée */
+    transform: scale(0.96);
+    transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+ 
+#skyrim-menu-overlay.open .skm-panel {
+    transform: scale(1);
+}
+ 
+/* Coins décoratifs */
+.skm-corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-color: rgba(210, 165, 55, 0.80);
+    border-style: solid;
+}
+.skm-tl { top: -1px; left: -1px;  border-width: 2px 0 0 2px; }
+.skm-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+.skm-bl { bottom: -1px; left: -1px;  border-width: 0 0 2px 2px; }
+.skm-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+ 
+/* --- En-tête --- */
+.skm-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    flex-shrink: 0;
+}
+ 
+.skm-rune {
+    color: rgba(210, 165, 55, 0.45);
+    font-size: 14px;
+    letter-spacing: 2px;
+    user-select: none;
+}
+ 
+.skm-title-block {
+    text-align: center;
+}
+ 
+.skm-location-name {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: normal;
+    color: #d4a843;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-shadow:
+        0 0 24px rgba(212, 168, 67, 0.55),
+        0 2px 6px rgba(0, 0, 0, 0.90);
+    line-height: 1.1;
+}
+ 
+.skm-location-sub {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    font-size: 10px;
+    color: rgba(200, 155, 60, 0.55);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+ 
+/* --- Séparateur or --- */
+.skm-divider {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    flex-shrink: 0;
+}
+ 
+.skm-div-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(200, 158, 55, 0.55), transparent);
+}
+ 
+.skm-div-gem {
+    color: rgba(200, 158, 55, 0.70);
+    font-size: 8px;
+    line-height: 1;
+}
+ 
+/* Zone qui contient la carte - On lui donne du relief */
+.skm-map-area {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* EFFET FENÊTRE : Fond sombre et bordure nette */
+    background: #0d0d0d; 
+    border: 1px solid rgba(195, 155, 55, 0.6);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.8), /* Ombre portée externe */
+        inset 0 0 30px rgba(0, 0, 0, 1);    /* Ombre interne */
+    z-index: 5;
+}
+
+.skm-map-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    
+    /* BORDS FONDUS : L'image s'efface vers le fond NOIR de skm-map-area */
+    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 95%);
+    mask-image: radial-gradient(circle, black 60%, transparent 95%);
+    
+    filter: sepia(0.2) contrast(1.1);
+}
+
+/* On s'assure que l'overlay est bien au-dessus de tout */
+#skyrim-menu-overlay {
+    z-index: 9999 !important; /* Force la priorité sur les autres interfaces */
+}
+
+/* Le GIF de parcours - On s'assure qu'il est bien au-dessus */
+.skm-gif-layer {
+    position: absolute;
+    z-index: 10;
+    pointer-events: none;
+    /* Tu peux ajuster top/left pour le placer précisément sur une ville par exemple */
+    top: 45%; 
+    left: 55%; 
+    transform: translate(-50%, -50%);
+}
+
+.skm-gif-layer img {
+    width: 180px; /* Taille ajustable */
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3)); /* Lueur pour le faire ressortir */
+}
+/* Vignette intérieure sur la carte */
+.skm-map-inner-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 80% 80% at center,
+        transparent 50%,
+        rgba(6, 5, 2, 0.45) 100%
+    );
+    pointer-events: none;
+}
+ 
+/* --- Footer --- */
+.skm-footer {
+    flex-shrink: 0;
+}
+ 
+.skm-close-hint {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    font-size: 9px;
+    color: rgba(200, 155, 55, 0.35);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
