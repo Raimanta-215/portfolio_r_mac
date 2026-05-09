@@ -334,14 +334,14 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
  
 .overlay-gif {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 75%;
+    left: 75%;
     transform: translate(-50%, -50%);
     pointer-events: auto;
 }
  
 .overlay-gif img {
-    width: 100px;
+    width: 200px;
     height: auto;
     opacity: 0.9;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
@@ -533,7 +533,7 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
     display: block;
     
     /* BORDS FONDUS : L'image s'efface vers le fond NOIR de skm-map-area */
-    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle, black 60%, transparent 65%);
     mask-image: radial-gradient(circle, black 60%, transparent 95%);
     
     filter: sepia(0.2) contrast(1.1);
@@ -541,7 +541,7 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
 
 /* On s'assure que l'overlay est bien au-dessus de tout */
 #skyrim-menu-overlay {
-    z-index: 9999 !important; /* Force la priorité sur les autres interfaces */
+    z-index: 1000001 !important; /* Force la priorité sur les autres interfaces */
 }
 
 /* Le GIF de parcours - On s'assure qu'il est bien au-dessus */
@@ -550,13 +550,13 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
     z-index: 10;
     pointer-events: none;
     /* Tu peux ajuster top/left pour le placer précisément sur une ville par exemple */
-    top: 45%; 
-    left: 55%; 
+    top: 60%; 
+    left: 47%; 
     transform: translate(-50%, -50%);
 }
 
 .skm-gif-layer img {
-    width: 180px; /* Taille ajustable */
+    width: 300px; /* Taille ajustable */
     filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3)); /* Lueur pour le faire ressortir */
 }
 /* Vignette intérieure sur la carte */
@@ -582,4 +582,52 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
     color: rgba(200, 155, 55, 0.35);
     letter-spacing: 2.5px;
     text-transform: uppercase;
+}
+
+.map-point {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+    /* translate(-50%, -50%) garantit que le point est centré sur les coordonnées */
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+}
+
+/* Effet d'animation pour les rendre visibles */
+.map-point::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border: 1px solid #020aa47b;
+    border-radius: 50%;
+    animation: point-pulse 2s infinite;
+}
+
+@keyframes point-pulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+.map-tooltip {
+    position: absolute;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 8px 12px;
+    border: 1px solid #d4a843;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden; /* Utiliser visibility au lieu de opacity pour tester */
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+    z-index: 9;
+}
+
+.map-point:hover .map-tooltip {
+    visibility: visible;
+    opacity: 1;
+    bottom: 160%;
 }

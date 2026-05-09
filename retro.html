@@ -505,7 +505,14 @@
 
     </div><!-- /#portable-interface -->
 
-    <div id="parkour" class="hidden-interface" >
+    <div id="parkour" class="hidden-interface"  style="display: none;">
+        <!-- Coquille vide : le bouton ✕ de main.js s'attache ici,
+             mais c'est l'overlay Skyrim qui affiche vraiment la carte -->
+        <div class="skyrim-window skyrim-window--ghost"></div>
+    </div>
+
+
+
     <!-- Overlay Menu Skyrim (plein écran, bords transparents) -->
 
     <div id="skyrim-menu-overlay" aria-modal="true" role="dialog">
@@ -568,10 +575,19 @@
 
                 <img src="img/skyrim.jpg" alt="Skyrim Map" class="skm-map-img">
 
+
+
                 <div class="skm-gif-layer">
 
                     <img src="img/parkour.gif" alt="Parkour Animation">
 
+                </div>
+                <div class="map-point" style="top: 70%; left: 54%;">
+                    <div class="map-tooltip">ULB - Bachelier d'architecture</div>
+                </div>
+                
+                <div class="map-point" style="top: 45%; left: 67%;">
+                    <div class="map-tooltip">EPHEC - Technologies de l'infroamtique</div>
                 </div>
 
                 <!-- Vignette intérieure sur la carte -->
@@ -603,11 +619,6 @@
         </div>
 
     </div>
-        <div class="skyrim-window skyrim-window--ghost"></div>
-    </div>
-
-
-
 
 
 

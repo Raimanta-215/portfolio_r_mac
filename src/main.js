@@ -26,43 +26,41 @@ window.addEventListener('resize', () => {
 });
 
 // Ajouter des boutons de fermeture aux divs GIF
-const gifIds = ['parkour', 'lego', 'elec', 'sword'];
+const gifIds = [ 'lego', 'elec', 'sword'];
 gifIds.forEach(id => {
     const div = document.getElementById(id);
-    if (!div) return;
-
-    // Pour parkour, la fermeture est gérée par skyrim.js via l'overlay
-    // On écoute juste l'event custom pour resetter la caméra
-    if (id === 'parkour') return;
-
-    // Créer le bouton de fermeture pour les autres GIFs
-    const closeBtn = document.createElement('button');
-    closeBtn.textContent = '✕';
-    closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '10px';
-    closeBtn.style.right = '10px';
-    closeBtn.style.backgroundColor = '#ff4444';
-    closeBtn.style.color = 'white';
-    closeBtn.style.border = 'none';
-    closeBtn.style.borderRadius = '5px';
-    closeBtn.style.padding = '5px 10px';
-    closeBtn.style.cursor = 'pointer';
-    closeBtn.style.fontSize = '16px';
-    closeBtn.style.zIndex = '100001';
-    closeBtn.addEventListener('click', () => {
-        div.style.display = 'none';
-        cameraMovement.currentObject = null;
-        cameraMovement.target = new THREE.Vector3(-15, 10, -18);
-        cameraMovement.lookAt.set(-1, 4.8, -1.5);
-    });
-    div.appendChild(closeBtn);
-});
-
-// Reset caméra quand l'overlay Skyrim se ferme (Échap ou clic dehors)
-document.addEventListener('skyrim:closed', () => {
-    cameraMovement.currentObject = null;
-    cameraMovement.target = new THREE.Vector3(-15, 10, -18);
-    cameraMovement.lookAt.set(-1, 4.8, -1.5);
+    if (div) {
+        // Créer le bouton de fermeture
+        const closeBtn = document.createElement('button');
+        closeBtn.textContent = '✕';
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '10px';
+        closeBtn.style.right = '10px';
+        closeBtn.style.backgroundColor = '#ff4444';
+        closeBtn.style.color = 'white';
+        closeBtn.style.border = 'none';
+        closeBtn.style.borderRadius = '5px';
+        closeBtn.style.padding = '5px 10px';
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.fontSize = '16px';
+        closeBtn.style.zIndex = '100001';
+        closeBtn.addEventListener('click', () => {
+            div.style.display = 'none';
+            cameraMovement.currentObject = null;
+            cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+            cameraMovement.lookAt.set(-1, 4.8, -1.5);
+        });
+        
+        // Pour parkour, ajouter le bouton au .skyrim-window
+        const skyrimWindow = div.querySelector('.skyrim-window');
+        if (skyrimWindow) {
+            skyrimWindow.style.position = 'relative';
+            skyrimWindow.appendChild(closeBtn);
+        } else {
+            // Pour les autres GIFs, ajouter directement au div
+            div.appendChild(closeBtn);
+        }
+    }
 });
 
 
@@ -137,5 +135,31 @@ function animate() {
 
     renderer.render(scene, camera);
 }
+// ✅ AJOUT : Réinitialisation de la vue avec la touche Échap
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        // Cacher toutes les interfaces actives
+        const interfaces = [
+            'pc-interface', 
+            'portable-interface', 
+            'parkour', 
+            'lego', 
+            'elec', 
+            'sword'
+        ];
+        
+        interfaces.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
 
+        // ✅ RE-SET CAMÉRA : Identique aux boutons closeBtn
+        cameraMovement.currentObject = null;
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+        cameraMovement.lookAt.set(-1, 4.8, -1.5);
+        
+        // Si tu utilises toujours l'overlay Skyrim dans skyrim.js
+        document.dispatchEvent(new CustomEvent('skyrim:closed'));
+    }
+});
 animate();
