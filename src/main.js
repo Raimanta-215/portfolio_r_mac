@@ -1,20 +1,18 @@
-import * as THREE from 'three'; // ✅ AJOUT : Indispensable pour utiliser THREE.Vector3 plus bas
+import * as THREE from 'three'; 
 import { scene, camera, renderer, controls } from './scene.js';
-import { loadRoomAndEnvironment, resetSwordPosition } from './loader.js';
+import { roomObject, loadRoomAndEnvironment, resetSwordPosition } from './loader.js';
 import { setupInteractions, cameraMovement } from './interaction.js';
 import { setupActionButtons } from './actions.js';
 import './win2000.js';
 import './win11.js';
 import './skyrim.js';
+import { DragControls } from 'three/addons/controls/DragControls.js';
 
-
-// ✅ AJOUT : C'est cette ligne qui lance vraiment le téléchargement de la chambre 3D !
+// Lancement du téléchargement de la chambre 3D
 loadRoomAndEnvironment(scene, camera, renderer);
 
-// On initialise les clics sur la 3D
+// Initialisation des clics 
 setupInteractions(scene, camera);
-
-// On initialise les clics sur les boutons HTML UNE SEULE FOIS ici
 setupActionButtons();
 
 // Gestion du redimensionnement
@@ -30,7 +28,6 @@ const gifIds = [ 'academic-projects', 'sword', 'parkour'];
 gifIds.forEach(id => {
     const div = document.getElementById(id);
     if (div) {
-        // Créer le bouton de fermeture
         const closeBtn = document.createElement('button');
         closeBtn.textContent = '✕';
         closeBtn.style.position = 'absolute';
@@ -49,36 +46,80 @@ gifIds.forEach(id => {
             cameraMovement.currentObject = null;
             cameraMovement.target = new THREE.Vector3(-15, 10, -18);
             cameraMovement.lookAt.set(-1, 4.8, -1.5);
-            // Réinitialiser l'épée si c'est celle-ci
-            if (id === 'sword') {
-                resetSwordPosition();
-            }
+            if (id === 'sword') resetSwordPosition();
+            if (id === 'academic-projects') resetAcademicMinigame();
         });
         
-        // Pour parkour, ajouter le bouton au .skyrim-window
         const skyrimWindow = div.querySelector('.skyrim-window');
         if (skyrimWindow) {
             skyrimWindow.style.position = 'relative';
             skyrimWindow.appendChild(closeBtn);
         } else {
-            // Pour les autres GIFs, ajouter directement au div
             div.appendChild(closeBtn);
         }
     }
 });
 
+// ✅ FONCTIONS DU MINI-JEU ACADÉMIQUE RÉPARÉES
+function resetAcademicMinigame() {
+    const allParts = [...legoParts, ...elecParts];
+    
+    allParts.forEach(part => {
+        if (roomObject && window.originalPos && window.originalPos[part.name]) {
+            const mesh = roomObject.getObjectByName(part.name);
+            if (mesh) {
+                mesh.position.copy(window.originalPos[part.name]);
+                mesh.userData.hasBeenMoved = false; 
+            }
+        }
+    });
 
+    if (isDragActive && toggleDragBtn) {
+        isDragActive = false;
+        if (dragControls) dragControls.enabled = false;
+        toggleDragBtn.style.background = "#f39c12"; 
+        toggleDragBtn.innerHTML = "🔧 Manipuler les pièces";
+        explodeState.lego = false;
+        explodeState.elec = false;
+        
+        // Sécurisation de la récupération des divs
+        const ce = document.getElementById('card-elec');
+        const cl = document.getElementById('card-lego');
+        if(ce) {
+            ce.style.display = "flex";
+            ce.style.background = "rgba(96, 205, 255, 0.05)";
+            ce.innerHTML = "";
+        }
+        if(cl) {
+            cl.style.display = "flex";
+            cl.style.background = "rgba(227, 0, 11, 0.05)";
+            cl.innerHTML = "";
+        }
+    }
+}
 
-// ✅ CORRECTION : Gestion propre des deux boutons de fermeture
+function updateCardPosition(meshName, cardId) {
+    const mesh = roomObject.getObjectByName(meshName);
+    const card = document.getElementById(cardId);
+
+    if (mesh && card && card.style.display !== 'none') {
+        const vector = new THREE.Vector3();
+        mesh.getWorldPosition(vector);
+        vector.project(camera);
+        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+        card.style.left = `${x}px`;
+        card.style.top = `${y}px`;
+    }
+}
+
+// Gestion propre des boutons PC
 const closePcBtn = document.getElementById('close-pc');
 if (closePcBtn) {
     closePcBtn.addEventListener('click', () => {
         document.getElementById('pc-interface').style.display = 'none';
-        
-        // ✅ LA CORRECTION EST LÀ : On vide la mémoire pour casser la boucle !
         cameraMovement.currentObject = null; 
-        
-        cameraMovement.target = new THREE.Vector3(-15, 10, -18); // Retour à la vue globale
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18); 
         cameraMovement.lookAt.set(-1, 4.8, -1.5);
         resetSwordPosition();
     });
@@ -88,63 +129,177 @@ const closePortableBtn = document.getElementById('close-portable');
 if (closePortableBtn) {
     closePortableBtn.addEventListener('click', () => {
         document.getElementById('portable-interface').style.display = 'none';
-        
-        // ✅ ON VIDE LA MÉMOIRE ICI AUSSI
         cameraMovement.currentObject = null; 
-        
-        cameraMovement.target = new THREE.Vector3(-15, 10, -18); // Retour à la vue globale
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18); 
         cameraMovement.lookAt.set(-1, 4.8, -1.5);
         resetSwordPosition();
     });
 }
 
-// --- LOGIQUE DE VUE ÉCLATÉE (HOVER) ---
-const explodeState = {
-    lego: false,
-    elec: false
-};
+// --- LOGIQUE DE VUE ÉCLATÉE ---
+const explodeState = { lego: false, elec: false };
 
-// Objets à séparer pour le Lego (tu peux ajuster les écarts en Y)
 const legoParts = [
-    { name: 'Star_Destroyer_Light_Gray_0', offset: 0.5 }, // Monte de 0.5
-    { name: 'Star_Destroyer_Dark_Gray_0', offset: -0.3 }  // Descend de 0.3
+    { name: 'Star_Destroyer_Light_Gray_0', offset: 2 },
+    { name: 'Star_Destroyer_Dark_Gray_0', offset: -2 },
+    { name: 'Star_Destroyer_Plastic_0', offset: 7 },
+    { name: 'Star_Destroyer_Black_0', offset: -7 },
+    { name: 'Star_Destroyer_AquaTransparent_0', offset: 6 },
 ];
 
-// Objets à séparer pour l'électronique
 const elecParts = [
-    { name: 'Chassi_Acrilico002_0', offset: 0.6 },
-    { name: 'Chassi_plastico_preto010_0', offset: 0.2 },
-    { name: 'Chassi_Material004_0', offset: -0.2 }
+    { name: 'Chassi_Acrilico002_0', offset: 2 },
+    { name: 'Chassi_plastico_preto010_0', offset: 5 },
+    { name: 'Chassi_Material004_0', offset: -3 },
+    { name: 'Roda004_Material096_0', offset: 6 },
+    { name: 'Chassi_latao003_0', offset: -6 },
+    { name: 'Chassi_Jumper_Preto_0002', offset: 10 },
+    { name: 'Chassi_Material021_0', offset: -10 },
+    { name: 'Roda004_Material097_0', offset: 4 },
+    { name: 'Chassi_PCB_topo004_0', offset: -4 },
+    { name: 'Chassi_Jumper_laranja_0', offset: 3 },
+    { name: 'Chassi_Material001_0', offset: 3 },
+    { name: 'Chassi_CAPA_AMARELA003_0', offset: -3 },
+    { name: 'Chassi_MetalFosco003_0', offset: 5 },
+    { name: 'Chassi_PCB_BASE004_0', offset: -5 },
+
 ];
 
-// Dictionnaire pour stocker les positions de base
-const originalY = {};
+// --- LOGIQUE DE GLISSER-DÉPOSER ---
+let dragControls = null;
+let draggableMeshes = [];
+let isDragActive = false; 
 
-// Écouteurs de survol sur la carte Électronique
+function setupDragControls() {
+    if (dragControls || !roomObject) return;
+
+    const allPartNames = [...legoParts, ...elecParts].map(p => p.name);
+    allPartNames.forEach(name => {
+        const mesh = roomObject.getObjectByName(name);
+        if (mesh) draggableMeshes.push(mesh);
+    });
+
+    dragControls = new DragControls(draggableMeshes, camera, renderer.domElement);
+    dragControls.enabled = false; 
+
+    dragControls.addEventListener('dragstart', function (event) {
+        controls.enabled = false; 
+        event.object.userData.isBeingDragged = true; 
+        
+        if (event.object.material) {
+            event.object.userData.oldOpacity = event.object.material.opacity || 1;
+            event.object.userData.oldTransparent = event.object.material.transparent;
+            event.object.material.transparent = true;
+            event.object.material.opacity = 0.6; 
+        }
+    });
+
+    dragControls.addEventListener('dragend', function (event) {
+        controls.enabled = true; 
+        event.object.userData.isBeingDragged = false;
+        event.object.userData.hasBeenMoved = true;
+
+        if (event.object.material) {
+            event.object.material.opacity = event.object.userData.oldOpacity;
+            event.object.material.transparent = event.object.userData.oldTransparent;
+        }
+    });
+}
+
+const toggleDragBtn = document.getElementById('toggle-drag-btn');
+if (toggleDragBtn) {
+    toggleDragBtn.addEventListener('click', () => {
+        isDragActive = !isDragActive; 
+        if (dragControls) dragControls.enabled = isDragActive;
+
+        const ce = document.getElementById('card-elec');
+        const cl = document.getElementById('card-lego');
+
+        if (isDragActive) {
+            explodeState.lego = false;
+            explodeState.elec = false;
+            
+            toggleDragBtn.style.background = "#27ae60"; 
+            toggleDragBtn.innerHTML = "✋ Stopper Manipulation";
+
+            // DISPARITION TOTALE POUR NE PAS GÊNER
+            if(ce) ce.style.display = "none";
+            if(cl) cl.style.display = "none";
+        } else {
+            explodeState.lego = false;
+            explodeState.elec = false;
+
+            toggleDragBtn.style.background = "#f39c12"; 
+            toggleDragBtn.innerHTML = "🔧 Manipuler les pièces";
+
+            // RÉAPPARITION EN MODE STANDBY
+            if(ce) {
+                ce.style.display = "flex";
+                ce.style.background = "rgba(96, 205, 255, 0.05)";
+                ce.innerHTML = "";
+            }
+            if(cl) {
+                cl.style.display = "flex";
+                cl.style.background = "rgba(227, 0, 11, 0.05)";
+                cl.innerHTML = "";
+            }        
+        }
+    });
+}
+
+// ✅ CORRECTION DES ÉVÉNEMENTS HOVER POUR GARDER LE CENTRAGE CSS
 const cardElec = document.getElementById('card-elec');
 if (cardElec) {
-    cardElec.addEventListener('mouseenter', () => { explodeState.elec = true; cardElec.style.transform = "scale(1.05)"; });
-    cardElec.addEventListener('mouseleave', () => { explodeState.elec = false; cardElec.style.transform = "scale(1)"; });
+    cardElec.addEventListener('mouseenter', () => { 
+        if(!isDragActive) {
+            explodeState.elec = true; 
+            cardElec.style.transform = "translate(-50%, -50%) scale(1.05)"; 
+            cardElec.style.background = "rgba(96, 205, 255, 0.4)";
+            cardElec.innerHTML = '<span style="color: rgba(96, 205, 255, 0.9); font-size: 30px;">−</span>';
+        }
+    });
+    cardElec.addEventListener('mouseleave', () => { 
+        if(!isDragActive) {
+            explodeState.elec = false; 
+            cardElec.style.transform = "translate(-50%, -50%) scale(1)"; 
+            cardElec.style.background = "rgba(96, 205, 255, 0.05)";
+            cardElec.innerHTML = '';
+        }
+    });
 }
 
-// Écouteurs de survol sur la carte Lego
 const cardLego = document.getElementById('card-lego');
 if (cardLego) {
-    cardLego.addEventListener('mouseenter', () => { explodeState.lego = true; cardLego.style.transform = "scale(1.05)"; });
-    cardLego.addEventListener('mouseleave', () => { explodeState.lego = false; cardLego.style.transform = "scale(1)"; });
+    cardLego.addEventListener('mouseenter', () => { 
+        if(!isDragActive) {
+            explodeState.lego = true; 
+            cardLego.style.transform = "translate(-50%, -50%) scale(1.05)"; 
+            cardLego.style.background = "rgba(227, 0, 11, 0.4)";
+            cardLego.innerHTML = '<span style="color: rgba(227, 0, 11, 0.9); font-size: 30px;">−</span>';
+        }
+    });
+    cardLego.addEventListener('mouseleave', () => { 
+        if(!isDragActive) {
+            explodeState.lego = false; 
+            cardLego.style.transform = "translate(-50%, -50%) scale(1)"; 
+            cardLego.style.background = "rgba(227, 0, 11, 0.05)";
+            cardLego.innerHTML = '';
+        }
+    });
 }
 
-// Bouton fermer spécial Projets Académiques
 const closeAcademicBtn = document.getElementById('close-academic');
 if (closeAcademicBtn) {
     closeAcademicBtn.addEventListener('click', () => {
         document.getElementById('academic-projects').style.display = 'none';
+        resetAcademicMinigame();
         cameraMovement.currentObject = null;
         cameraMovement.target = new THREE.Vector3(-15, 10, -18);
         cameraMovement.lookAt.set(-1, 4.8, -1.5);
     });
 }
-// Boucle d'animation
+
+// --- BOUCLE D'ANIMATION ---
 function animate() {
     requestAnimationFrame(animate);
     controls.update();
@@ -153,11 +308,7 @@ function animate() {
         camera.position.lerp(cameraMovement.target, 0.05);
         controls.target.lerp(cameraMovement.lookAt, 0.05);
 
-        // QUAND LA CAMÉRA ARRIVE À DESTINATION
         if (camera.position.distanceTo(cameraMovement.target) < 0.1) {
-            console.log("Arrivé devant :", cameraMovement.currentObject);
-            
-            // On affiche la page web par dessus
             if (cameraMovement.currentObject === 'MonitorOn_MonitorOn_0') {
                 const pcInterface = document.getElementById('pc-interface');
                 if (pcInterface) pcInterface.style.display = 'flex';
@@ -170,55 +321,73 @@ function animate() {
                 const parkourInterface = document.getElementById('parkour');
                 if (parkourInterface) parkourInterface.style.display = 'flex';
             }
-            else if (cameraMovement.currentObject === 'Star_Destroyer_Dark_Gray_0' || cameraMovement.currentObject === 'Star_Destroyer_Light_Gray_0') {
-                const starDestroyerInterface = document.getElementById('lego');
-                if (starDestroyerInterface) starDestroyerInterface.style.display = 'flex';
-            }
-            else if (cameraMovement.currentObject === 'Chassi_Material004_0' || cameraMovement.currentObject === 'Chassi_plastico_preto010_0' || cameraMovement.currentObject === 'Chassi_PlasticoPreto018_0' || cameraMovement.currentObject === 'Chassi_Acrilico002_0') {
-                const chassiInterface = document.getElementById('elec');
-                if (chassiInterface) chassiInterface.style.display = 'flex';
+            else if (cameraMovement.currentObject === 'AcademicProjects') {
+                const academicInterface = document.getElementById('academic-projects');
+                if (academicInterface) academicInterface.style.display = 'block';
+                
+                // ✅ ARRIVÉE CAMÉRA : ON ÉTEINT TOUT PROPREMENT
+                explodeState.lego = false;
+                explodeState.elec = false;
+
+                const ce = document.getElementById('card-elec');
+                const cl = document.getElementById('card-lego');
+                if(ce) {
+                    ce.style.background = "rgba(96, 205, 255, 0.05)";
+                    ce.innerHTML = '';
+                }
+                if(cl) {
+                    cl.style.background = "rgba(227, 0, 11, 0.05)";
+                    cl.innerHTML = '';
+                }
+
+                setupDragControls();
             }
             else if (cameraMovement.currentObject === 'Plane034_01_-_Default_0') {
                 const swordInterface = document.getElementById('sword');
                 if (swordInterface) swordInterface.style.display = 'flex';
             }
-            // On stoppe le mouvement
             cameraMovement.target = null; 
         }
     }
 
     if (roomObject) {
-        // Animation Lego
+        if (!window.originalPos) window.originalPos = {};
+
         legoParts.forEach(part => {
             const mesh = roomObject.getObjectByName(part.name);
-            if (mesh) {
-                // Sauvegarde la position d'origine au premier passage
-                if (originalY[part.name] === undefined) originalY[part.name] = mesh.position.y;
-                
-                // Calcule la cible (position d'origine + offset si survolé, sinon position d'origine)
-                const targetY = explodeState.lego ? originalY[part.name] + part.offset : originalY[part.name];
-                
-                // Déplacement fluide (Lerp)
-                mesh.position.y += (targetY - mesh.position.y) * 0.1;
-            }
+            if (mesh && !mesh.userData.isBeingDragged && !mesh.userData.hasBeenMoved) {
+                    if (!window.originalPos[part.name]) window.originalPos[part.name] = mesh.position.clone();
+                    const targetY = explodeState.lego ? window.originalPos[part.name].y + part.offset : window.originalPos[part.name].y;
+                    
+                    mesh.position.x += (window.originalPos[part.name].x - mesh.position.x) * 0.1;
+                    mesh.position.y += (targetY - mesh.position.y) * 0.1;
+                    mesh.position.z += (window.originalPos[part.name].z - mesh.position.z) * 0.1;
+                }
         });
 
-        // Animation Électronique
         elecParts.forEach(part => {
             const mesh = roomObject.getObjectByName(part.name);
-            if (mesh) {
-                if (originalY[part.name] === undefined) originalY[part.name] = mesh.position.y;
-                const targetY = explodeState.elec ? originalY[part.name] + part.offset : originalY[part.name];
-                mesh.position.y += (targetY - mesh.position.y) * 0.1;
-            }
+            if (mesh && !mesh.userData.isBeingDragged && !mesh.userData.hasBeenMoved) {
+                    if (!window.originalPos[part.name]) window.originalPos[part.name] = mesh.position.clone();
+                    const targetX = explodeState.elec ? window.originalPos[part.name].x + part.offset : window.originalPos[part.name].x;
+                    
+                    mesh.position.x += (targetX - mesh.position.x) * 0.1;
+                    mesh.position.y += (window.originalPos[part.name].y - mesh.position.y) * 0.1;
+                    mesh.position.z += (window.originalPos[part.name].z - mesh.position.z) * 0.1;
+                }
         });
+
+        if (document.getElementById('academic-projects').style.display === 'block') {
+            updateCardPosition('Star_Destroyer_Light_Gray_0', 'card-lego');
+            updateCardPosition('Chassi_Acrilico002_0', 'card-elec');
+        }
+    }
 
     renderer.render(scene, camera);
 }
-// ✅ AJOUT : Réinitialisation de la vue avec la touche Échap
+
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-        // Cacher toutes les interfaces actives
         const interfaces = [
             'pc-interface', 
             'portable-interface', 
@@ -232,21 +401,15 @@ document.addEventListener('keydown', (event) => {
             if (el) el.style.display = 'none';
         });
 
-        // Réinitialiser l'épée
         resetSwordPosition();
+        resetAcademicMinigame();
 
-        // ✅ RE-SET CAMÉRA : Identique aux boutons closeBtn
         cameraMovement.currentObject = null;
         cameraMovement.target = new THREE.Vector3(-15, 10, -18);
         cameraMovement.lookAt.set(-1, 4.8, -1.5);
         
-        // Si tu utilises toujours l'overlay Skyrim dans skyrim.js
         document.dispatchEvent(new CustomEvent('skyrim:closed'));
     }
 });
 
-
-
-
 animate();
-

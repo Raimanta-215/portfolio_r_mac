@@ -64,3 +64,42 @@
     background: transparent !important; /* ou background: none; */
     /* pointer-events: none; au besoin si le fond bloque les clics */
 }
+
+#academic-projects.hidden-interface {
+    background: transparent !important; /* ou background: none; */
+    /* pointer-events: none; au besoin si le fond bloque les clics */
+}
+
+
+/* --- ANIMATIONS BOÎTES LUMINEUSES --- */
+@keyframes pulse-glow-elec {
+    0%   { box-shadow: 0 0 5px rgba(96, 205, 255, 0.2), inset 0 0 5px rgba(96, 205, 255, 0.2); border-color: rgba(96, 205, 255, 0.3); }
+    50%  { box-shadow: 0 0 25px rgba(96, 205, 255, 0.8), inset 0 0 15px rgba(96, 205, 255, 0.5); border-color: rgba(96, 205, 255, 0.9); }
+    100% { box-shadow: 0 0 5px rgba(96, 205, 255, 0.2), inset 0 0 5px rgba(96, 205, 255, 0.2); border-color: rgba(96, 205, 255, 0.3); }
+}
+
+@keyframes pulse-glow-lego {
+    0%   { box-shadow: 0 0 5px rgba(227, 0, 11, 0.2), inset 0 0 5px rgba(227, 0, 11, 0.2); border-color: rgba(227, 0, 11, 0.3); }
+    50%  { box-shadow: 0 0 25px rgba(227, 0, 11, 0.8), inset 0 0 15px rgba(227, 0, 11, 0.5); border-color: rgba(227, 0, 11, 0.9); }
+    100% { box-shadow: 0 0 5px rgba(227, 0, 11, 0.2), inset 0 0 5px rgba(227, 0, 11, 0.2); border-color: rgba(227, 0, 11, 0.3); }
+}
+
+.glow-box-elec {
+    animation: pulse-glow-elec 2s infinite ease-in-out;
+    backdrop-filter: blur(3px); /* Effet verre */
+}
+.glow-box-elec:hover { background: rgba(96, 205, 255, 0.3) !important; }
+
+.glow-box-lego {
+    animation: pulse-glow-lego 2s infinite ease-in-out;
+    backdrop-filter: blur(3px); /* Effet verre */
+}
+.glow-box-lego:hover { background: rgba(227, 0, 11, 0.3) !important; }
+
+/* Dans retro3.css, vérifie ces propriétés */
+.glow-box-elec, .glow-box-lego {
+    position: fixed; /* Utilise fixed ou absolute par rapport au body */
+    transform: translate(-50%, -50%); /* Pour que le centre du carré soit sur l'objet */
+    z-index: 1000; /* Devant le canvas */
+    pointer-events: all; /* Pour que le mouseenter fonctionne */
+}

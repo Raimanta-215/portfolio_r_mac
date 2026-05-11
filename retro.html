@@ -643,8 +643,8 @@
                 <div class="skm-header">
                     <div class="skm-rune">⟨◈⟩</div>
                     <div class="skm-title-block">
-                        <div class="skm-location-name" style="font-size: 20px;">Le Scorpion</div>
-                        <div class="skm-location-sub">Compétences</div>
+                        <div class="skm-location-name" style="font-size: 20px;">Compétences</div>
+                        <div class="skm-location-sub">Technologies de l'informatique</div>
                     </div>
                     <div class="skm-rune">⟨◈⟩</div>
                 </div>
@@ -691,24 +691,19 @@
     </div>
 
 
-    <div id="academic-projects" class="hidden-interface" style="display: none; pointer-events: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+    <div id="academic-projects" class="hidden-interface" style="display: none; pointer-events: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0; overflow: hidden;">
         
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%; height: 100%; padding: 40px;">
-            
-            <div id="card-elec" style="pointer-events: all; background: rgba(0,0,0,0.8); border: 1px solid #60cdff; border-radius: 8px; padding: 20px; width: 300px; color: white; cursor: pointer; transition: transform 0.2s;">
-                <h3 style="color: #60cdff; margin-bottom: 10px;">🔌 Châssis Électronique</h3>
-                <p style="font-size: 13px; color: #ccc;">Survolez cette carte pour voir la vue éclatée de la structure et des composants.</p>
-            </div>
-
-            <div id="card-lego" style="pointer-events: all; background: rgba(0,0,0,0.8); border: 1px solid #e3000b; border-radius: 8px; padding: 20px; width: 300px; color: white; cursor: pointer; transition: transform 0.2s;">
-                <h3 style="color: #e3000b; margin-bottom: 10px;">🛸 Star Destroyer (Lego)</h3>
-                <p style="font-size: 13px; color: #ccc;">Survolez cette carte pour analyser l'assemblage des blocs du vaisseau.</p>
-            </div>
-
+        <div id="card-elec" class="glow-box-elec" style="position: absolute; pointer-events: all; background: rgba(96, 205, 255, 0.05); border: 2px solid transparent; border-radius: 8px; width: 60px; height: 60px; cursor: pointer; transition: background 0.3s; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;">
+            <span style="color: rgba(96, 205, 255, 0.8); font-size: 100px; font-weight: 300;"></span>
         </div>
-        
-        <button id="close-academic" style="pointer-events: all; position: absolute; top: 20px; right: 20px; background: #ff4444; color: white; border: none; border-radius: 5px; padding: 8px 15px; cursor: pointer; font-size: 16px;">✕ Fermer</button>
 
+        <div id="card-lego" class="glow-box-lego" style="position: absolute; pointer-events: all; background: rgba(227, 0, 11, 0.05); border: 2px solid transparent; border-radius: 8px; width: 60px; height: 60px; cursor: pointer; transition: background 0.3s; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;">
+            <span style="color: rgba(227, 0, 11, 0.8); font-size: 100px; font-weight: 300;"></span>
+        </div>
+
+    <button id="toggle-drag-btn" style="pointer-events: all; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: #5c95b0; color: white; border: none; border-radius: 8px; padding: 12px 24px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: background 0.3s, transform 0.2s;">
+            Faire la TotoMobile
+        </button>
     </div>
 
 

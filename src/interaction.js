@@ -55,10 +55,9 @@ export function focusOnObject(targetName, targetMesh) {
         case 'Star_Destroyer_Light_Gray_0':
             cameraMovement.currentObject = 'AcademicProjects';
                 
-                // 2. LA CAMÉRA : Tu devras ajuster ces chiffres pour cadrer les DEUX objets en même temps
-                // Pour l'instant, je mets une position reculée basée sur la position de l'objet cliqué
-                cameraMovement.lookAt.set(targetPos.x - 1, targetPos.y, targetPos.z);
-                cameraMovement.target = new THREE.Vector3(targetPos.x - 5, targetPos.y + 3, targetPos.z - 8);
+            cameraMovement.lookAt.set(-2.475, 4.68, -4.025);
+            cameraMovement.target = new THREE.Vector3(-7, 8, -7);     
+            break;
         case 'defaultMaterial007_2':
             cameraMovement.target = new THREE.Vector3(targetPos.x - 2, targetPos.y + 2, targetPos.z - 3);
             break;
