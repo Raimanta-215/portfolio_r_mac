@@ -6,6 +6,88 @@ import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
 
 export let roomObject = null;
+export let swordMesh = null;
+let swordOriginalPosition = new THREE.Vector3();
+let swordOriginalRotation = new THREE.Euler();
+
+let swordAnimation = null;
+
+export function animateSwordToPosition(targetPos) {
+    if (!swordMesh) return;
+    
+    // ✅ CORRECTION 1 : Empêche l'épée de disparaître par erreur
+    swordMesh.frustumCulled = false; 
+    
+    swordMesh.material.depthTest = false;
+    swordMesh.renderOrder = 999;
+    // Arrêter l'animation précédente si elle existe
+    if (swordAnimation) cancelAnimationFrame(swordAnimation);
+    
+    const startPos = swordMesh.position.clone();
+    const startRot = swordMesh.rotation.clone();
+    const duration = 1000; // 1 seconde pour le trajet
+    const startTime = Date.now();
+    
+    const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Déplacement : s'arrête quand progress atteint 1
+        if (progress < 1) {
+            const easeProgress = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+            // On utilise lerpVectors pour calculer le trajet exact entre start et target
+            swordMesh.position.lerpVectors(startPos, targetPos, easeProgress);
+            
+            // ✅ ROTATION : S'exécute seulement pendant le déplacement
+            swordMesh.rotation.y += 0.02; // Tourne sur elle-même doucement
+            swordMesh.rotation.z = Math.PI / 4; // Reste penchée à 45 degrés (oblique)
+            
+            swordAnimation = requestAnimationFrame(animate);
+        } else {
+            // ✅ UNE FOIS ARRIVÉE : On arrête l'animation et on fixe la rotation finale
+            swordMesh.position.copy(targetPos);
+            swordMesh.rotation.y = startRot.y;
+            swordMesh.rotation.z = Math.PI / 4; // Garde l'angle final
+        }
+    };
+    
+    animate();
+}
+export function resetSwordPosition() {
+    if (swordAnimation) cancelAnimationFrame(swordAnimation);
+    if (swordMesh) {
+        swordMesh.material.depthTest = true;
+        swordMesh.renderOrder = 0;
+        // Animer le retour vers la position originale
+        const startPos = swordMesh.position.clone();
+        const startRot = swordMesh.rotation.clone();
+        const duration = 1000; // 1.5 secondes
+        const startTime = Date.now();
+        
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Interpolation douce avec easing
+            const easeProgress = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+            
+            swordMesh.position.lerpVectors(startPos, swordOriginalPosition, easeProgress);
+            swordMesh.rotation.x += (swordOriginalRotation.x - startRot.x) * easeProgress / 10;
+            swordMesh.rotation.y += (swordOriginalRotation.y - startRot.y) * easeProgress / 10;
+            swordMesh.rotation.z += (swordOriginalRotation.z - startRot.z) * easeProgress / 10;
+            
+            if (progress < 1) {
+                swordAnimation = requestAnimationFrame(animate);
+            } else {
+                // S'assurer que la position finale est exacte
+                swordMesh.position.copy(swordOriginalPosition);
+                swordMesh.rotation.copy(swordOriginalRotation);
+            }
+        };
+        
+        animate();
+    }
+}
 
 export function loadRoomAndEnvironment(scene, camera, renderer) {
 // 1. Charger le HDR (On le garde juste pour les petits reflets tamisés)
@@ -105,8 +187,12 @@ export function loadRoomAndEnvironment(scene, camera, renderer) {
                     scene.add(laptopGlow);
                 }
                 
-                const swordMesh = room.getObjectByName('Plane034_01_-_Default_0');
-                if (swordMesh) {
+                const swordMeshNode = room.getObjectByName('Plane034_01_-_Default_0');
+                if (swordMeshNode) {
+                    swordMesh = swordMeshNode;
+                    // Sauvegarder la position et rotation originales
+                    swordOriginalPosition.copy(swordMesh.position);
+                    swordOriginalRotation.copy(swordMesh.rotation);
                     swordMesh.material.emissive = new THREE.Color(0xffffff);
                     if (swordMesh.material.map) {
                         swordMesh.material.emissiveMap = swordMesh.material.map;

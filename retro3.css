@@ -1,0 +1,66 @@
+/* --- CONSTELLATION SKYRIM --- */
+.skm-constellation-container {
+    position: relative;
+    width: 250px;
+    height: 280px;
+    /* Fond nébuleuse bleutée/noire façon Skyrim */
+    background: radial-gradient(circle at 50% 50%, rgba(20, 30, 50, 0.8) 0%, rgba(5, 5, 10, 0.95) 100%),
+                radial-gradient(circle at 20% 80%, rgba(40, 55, 80, 0.4) 0%, transparent 50%);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+
+.skm-star-node {
+    position: absolute;
+    transform: translate(-50%, -50%); /* Centre parfaitement l'étoile sur sa coordonnée */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+.skm-star-node:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Le cœur de l'étoile */
+.skm-star-core {
+    background: radial-gradient(circle, #ffffff 10%, #d4a843 60%, transparent 80%);
+    border-radius: 50%;
+    box-shadow: 0 0 15px 3px rgba(212, 168, 67, 0.6);
+}
+
+/* Tailles différentes pour les compétences majeures/mineures */
+.skm-star-node.major .skm-star-core { width: 20px; height: 20px; box-shadow: 0 0 20px 5px rgba(212, 168, 67, 0.8); }
+.skm-star-node.medium .skm-star-core { width: 14px; height: 14px; }
+.skm-star-node.minor .skm-star-core { width: 10px; height: 10px; }
+
+/* Le texte de la compétence */
+.skm-star-label {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+    color: #e6c875;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    text-shadow: 0 0 5px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,1);
+    white-space: nowrap;
+}
+
+/* Les lignes lumineuses */
+.skm-constellation-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    filter: drop-shadow(0 0 3px rgba(67, 159, 212, 0.664));
+}
+#sword.hidden-interface {
+    background: transparent !important; /* ou background: none; */
+    /* pointer-events: none; au besoin si le fond bloque les clics */
+}

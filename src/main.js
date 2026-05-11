@@ -1,6 +1,6 @@
 import * as THREE from 'three'; // ✅ AJOUT : Indispensable pour utiliser THREE.Vector3 plus bas
 import { scene, camera, renderer, controls } from './scene.js';
-import { loadRoomAndEnvironment } from './loader.js';
+import { loadRoomAndEnvironment, resetSwordPosition } from './loader.js';
 import { setupInteractions, cameraMovement } from './interaction.js';
 import { setupActionButtons } from './actions.js';
 import './win2000.js';
@@ -26,7 +26,7 @@ window.addEventListener('resize', () => {
 });
 
 // Ajouter des boutons de fermeture aux divs GIF
-const gifIds = [ 'lego', 'elec', 'sword'];
+const gifIds = [ 'academic-projects', 'sword', 'parkour'];
 gifIds.forEach(id => {
     const div = document.getElementById(id);
     if (div) {
@@ -49,6 +49,10 @@ gifIds.forEach(id => {
             cameraMovement.currentObject = null;
             cameraMovement.target = new THREE.Vector3(-15, 10, -18);
             cameraMovement.lookAt.set(-1, 4.8, -1.5);
+            // Réinitialiser l'épée si c'est celle-ci
+            if (id === 'sword') {
+                resetSwordPosition();
+            }
         });
         
         // Pour parkour, ajouter le bouton au .skyrim-window
@@ -76,7 +80,7 @@ if (closePcBtn) {
         
         cameraMovement.target = new THREE.Vector3(-15, 10, -18); // Retour à la vue globale
         cameraMovement.lookAt.set(-1, 4.8, -1.5);
-
+        resetSwordPosition();
     });
 }
 
@@ -90,10 +94,56 @@ if (closePortableBtn) {
         
         cameraMovement.target = new THREE.Vector3(-15, 10, -18); // Retour à la vue globale
         cameraMovement.lookAt.set(-1, 4.8, -1.5);
+        resetSwordPosition();
     });
 }
 
+// --- LOGIQUE DE VUE ÉCLATÉE (HOVER) ---
+const explodeState = {
+    lego: false,
+    elec: false
+};
 
+// Objets à séparer pour le Lego (tu peux ajuster les écarts en Y)
+const legoParts = [
+    { name: 'Star_Destroyer_Light_Gray_0', offset: 0.5 }, // Monte de 0.5
+    { name: 'Star_Destroyer_Dark_Gray_0', offset: -0.3 }  // Descend de 0.3
+];
+
+// Objets à séparer pour l'électronique
+const elecParts = [
+    { name: 'Chassi_Acrilico002_0', offset: 0.6 },
+    { name: 'Chassi_plastico_preto010_0', offset: 0.2 },
+    { name: 'Chassi_Material004_0', offset: -0.2 }
+];
+
+// Dictionnaire pour stocker les positions de base
+const originalY = {};
+
+// Écouteurs de survol sur la carte Électronique
+const cardElec = document.getElementById('card-elec');
+if (cardElec) {
+    cardElec.addEventListener('mouseenter', () => { explodeState.elec = true; cardElec.style.transform = "scale(1.05)"; });
+    cardElec.addEventListener('mouseleave', () => { explodeState.elec = false; cardElec.style.transform = "scale(1)"; });
+}
+
+// Écouteurs de survol sur la carte Lego
+const cardLego = document.getElementById('card-lego');
+if (cardLego) {
+    cardLego.addEventListener('mouseenter', () => { explodeState.lego = true; cardLego.style.transform = "scale(1.05)"; });
+    cardLego.addEventListener('mouseleave', () => { explodeState.lego = false; cardLego.style.transform = "scale(1)"; });
+}
+
+// Bouton fermer spécial Projets Académiques
+const closeAcademicBtn = document.getElementById('close-academic');
+if (closeAcademicBtn) {
+    closeAcademicBtn.addEventListener('click', () => {
+        document.getElementById('academic-projects').style.display = 'none';
+        cameraMovement.currentObject = null;
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+        cameraMovement.lookAt.set(-1, 4.8, -1.5);
+    });
+}
 // Boucle d'animation
 function animate() {
     requestAnimationFrame(animate);
@@ -128,10 +178,40 @@ function animate() {
                 const chassiInterface = document.getElementById('elec');
                 if (chassiInterface) chassiInterface.style.display = 'flex';
             }
+            else if (cameraMovement.currentObject === 'Plane034_01_-_Default_0') {
+                const swordInterface = document.getElementById('sword');
+                if (swordInterface) swordInterface.style.display = 'flex';
+            }
             // On stoppe le mouvement
             cameraMovement.target = null; 
         }
     }
+
+    if (roomObject) {
+        // Animation Lego
+        legoParts.forEach(part => {
+            const mesh = roomObject.getObjectByName(part.name);
+            if (mesh) {
+                // Sauvegarde la position d'origine au premier passage
+                if (originalY[part.name] === undefined) originalY[part.name] = mesh.position.y;
+                
+                // Calcule la cible (position d'origine + offset si survolé, sinon position d'origine)
+                const targetY = explodeState.lego ? originalY[part.name] + part.offset : originalY[part.name];
+                
+                // Déplacement fluide (Lerp)
+                mesh.position.y += (targetY - mesh.position.y) * 0.1;
+            }
+        });
+
+        // Animation Électronique
+        elecParts.forEach(part => {
+            const mesh = roomObject.getObjectByName(part.name);
+            if (mesh) {
+                if (originalY[part.name] === undefined) originalY[part.name] = mesh.position.y;
+                const targetY = explodeState.elec ? originalY[part.name] + part.offset : originalY[part.name];
+                mesh.position.y += (targetY - mesh.position.y) * 0.1;
+            }
+        });
 
     renderer.render(scene, camera);
 }
@@ -143,8 +223,7 @@ document.addEventListener('keydown', (event) => {
             'pc-interface', 
             'portable-interface', 
             'parkour', 
-            'lego', 
-            'elec', 
+            'academic-projects',
             'sword'
         ];
         
@@ -152,6 +231,9 @@ document.addEventListener('keydown', (event) => {
             const el = document.getElementById(id);
             if (el) el.style.display = 'none';
         });
+
+        // Réinitialiser l'épée
+        resetSwordPosition();
 
         // ✅ RE-SET CAMÉRA : Identique aux boutons closeBtn
         cameraMovement.currentObject = null;
@@ -162,4 +244,9 @@ document.addEventListener('keydown', (event) => {
         document.dispatchEvent(new CustomEvent('skyrim:closed'));
     }
 });
+
+
+
+
 animate();
+

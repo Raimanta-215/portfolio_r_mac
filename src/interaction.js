@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { roomObject } from './loader.js';
+import { animateSwordToPosition, resetSwordPosition } from './loader.js';
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -50,17 +51,30 @@ export function focusOnObject(targetName, targetMesh) {
         case 'Chassi_plastico_preto010_0':
         case 'Chassi_PlasticoPreto018_0':
         case 'Chassi_Acrilico002_0':
-            cameraMovement.target = new THREE.Vector3(targetPos.x - 3, targetPos.y + 1, targetPos.z - 1);
-            break;
+        case 'Star_Destroyer_Dark_Gray_0':
+        case 'Star_Destroyer_Light_Gray_0':
+            cameraMovement.currentObject = 'AcademicProjects';
+                
+                // 2. LA CAMÉRA : Tu devras ajuster ces chiffres pour cadrer les DEUX objets en même temps
+                // Pour l'instant, je mets une position reculée basée sur la position de l'objet cliqué
+                cameraMovement.lookAt.set(targetPos.x - 1, targetPos.y, targetPos.z);
+                cameraMovement.target = new THREE.Vector3(targetPos.x - 5, targetPos.y + 3, targetPos.z - 8);
         case 'defaultMaterial007_2':
             cameraMovement.target = new THREE.Vector3(targetPos.x - 2, targetPos.y + 2, targetPos.z - 3);
             break;
-        case 'Star_Destroyer_Dark_Gray_0':
-        case 'Star_Destroyer_Light_Gray_0':
-            cameraMovement.target = new THREE.Vector3(targetPos.x, targetPos.y + 5, targetPos.z - 10);
-            break;
+
         case 'Plane034_01_-_Default_0':
-            cameraMovement.target = new THREE.Vector3(targetPos.x, targetPos.y + 10, targetPos.z - 15);
+            // 1. La caméra se place un peu en recul
+            cameraMovement.target = new THREE.Vector3(targetPos.x - 4, targetPos.y + 1.5, targetPos.z - 4);
+            
+            // 2. Position calculée sur-mesure : 2 unités devant la caméra, et décalée vers la GAUCHE
+            const swordDisplayPos = new THREE.Vector3(
+                targetPos.x - 3.15, 
+                targetPos.y + 1.3, 
+                targetPos.z - 2.02
+            );
+            
+            animateSwordToPosition(swordDisplayPos);
             break;
         default:
             console.log(`Cible 3D non gérée pour la caméra : ${targetName}`);

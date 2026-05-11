@@ -586,8 +586,8 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
 
 .map-point {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 100;

@@ -5,6 +5,7 @@
     <title>Mon Portfolio</title>
     <link rel="stylesheet" href="retro.css">
     <link rel="stylesheet" href="retro2.css">
+    <link rel="stylesheet" href="retro3.css">
     <link rel="icon" href="data:,">
 </head>
 <body>
@@ -12,9 +13,16 @@
     <div id="loading-screen">
         <span id="loading-text">CHARGEMENT EN COURS... </span>
         <img src="img/gifCat.gif" alt="Chat mignon qui charge" class="cat-loader">
+        <p style="position: absolute; top: 80px; left: 50%; transform: translateX(-50%); font-size: 18px; color: #555555; text-align: center; max-width: 80vw; margin: 0;">
+            Le chargement du rendu 3D peut prendre maximum 15 secondes... merci de patienter :)
+        </p>
+        
         <p style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 14px; color: #aaaaaa; text-align: center; max-width: 80vw; margin: 0;">
             Le saviez-vous ? Pendant 20 ans, il était illégal de mettre des mini-jeux dans les chargements à cause d'un brevet.
             C'est pour ça que les jeux comme Skyrim vous laissaient juste faire tourner des objets 3D !
+        </p>
+        <p style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 12px; color: #cccccc; text-align: center; max-width: 80vw; margin: 0;">
+            Portfolio créé par MACEDON Raisa — © 2026 — EPHEC TI
         </p>
     </div>
 
@@ -545,9 +553,9 @@
 
                 <div class="skm-title-block">
 
-                    <div class="skm-location-name">Parcours Urbain</div>
+                    <div class="skm-location-name">Parcours scolaire</div>
 
-                    <div class="skm-location-sub">Tamriel — Zone d'Activité ✦ Interactive</div>
+                    <div class="skm-location-sub">Survolez les lieux pour plus de détails ✦ ULB ✦ EPHEC </div>
 
                 </div>
 
@@ -582,11 +590,11 @@
                     <img src="img/parkour.gif" alt="Parkour Animation">
 
                 </div>
-                <div class="map-point" style="top: 70%; left: 54%;">
+                <div class="map-point" style="top: 69%; left: 52%;">
                     <div class="map-tooltip">ULB - Bachelier d'architecture</div>
                 </div>
                 
-                <div class="map-point" style="top: 45%; left: 67%;">
+                <div class="map-point" style="top: 45%; left: 62%;">
                     <div class="map-tooltip">EPHEC - Technologies de l'infroamtique</div>
                 </div>
 
@@ -612,7 +620,7 @@
 
             <div class="skm-footer">
 
-                <span class="skm-close-hint">[ÉCHAP] ou cliquer en dehors pour fermer</span>
+                <span class="skm-close-hint">[ÉCHAP] pour fermer</span>
 
             </div>
 
@@ -622,15 +630,88 @@
 
 
 
-    <div id="sword" class="hidden-interface" style="display: none;">  
-        <img src="img/sword.gif"></div>
+    <div id="sword" class="hidden-interface" style="display: none; background: transparent; pointer-events: none;">
+        <div id="sword-menu-overlay" style="display: flex; width: 100%; height: 100%; justify-content: flex-end; align-items: center; padding-right: 5vw;">
+            
+            <div class="skm-menu-box" style="pointer-events: all; width: 350px; background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(212, 168, 67, 0.5); padding: 25px; position: relative; box-shadow: 0 0 40px rgba(0,0,0,0.9); border-radius: 4px;">
+                
+                <span class="skm-corner skm-tl"></span>
+                <span class="skm-corner skm-tr"></span>
+                <span class="skm-corner skm-bl"></span>
+                <span class="skm-corner skm-br"></span>
+
+                <div class="skm-header">
+                    <div class="skm-rune">⟨◈⟩</div>
+                    <div class="skm-title-block">
+                        <div class="skm-location-name" style="font-size: 20px;">Le Scorpion</div>
+                        <div class="skm-location-sub">Compétences</div>
+                    </div>
+                    <div class="skm-rune">⟨◈⟩</div>
+                </div>
+
+                <div class="skm-divider">
+                    <span class="skm-div-line"></span>
+                    <span class="skm-div-gem">◆</span>
+                    <span class="skm-div-line"></span>
+                </div>
+
+                <div class="skm-constellation-container" style="position: relative; width: 100%; height: 320px; background: none; margin-top: 15px; box-shadow: none; border: none;">
+                    
+                    <svg style="position: absolute; width: 100%; height: 100%; pointer-events: none;">
+                        <line x1="70" y1="50" x2="140" y2="70" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="250" y1="50" x2="140" y2="70" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="140" y1="70" x2="150" y2="120" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="150" y1="120" x2="160" y2="160" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="160" y1="160" x2="180" y2="210" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="180" y1="210" x2="140" y2="270" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                        <line x1="140" y1="270" x2="80" y2="220" stroke="#a38236" stroke-width="1.5" opacity="0.7"/>
+                    </svg>
+
+                    <div class="skm-star-node minor" style="left: 70px; top: 50px;"><div class="skm-star-core"></div><div class="skm-star-label" style="transform: translateX(-40px);">Sécurité</div></div>
+                    <div class="skm-star-node medium" style="left: 140px; top: 70px;"><div class="skm-star-core"></div><div class="skm-star-label" style="margin-top:-35px">Stratégie</div></div>
+                    <div class="skm-star-node minor" style="left: 250px; top: 50px;"><div class="skm-star-core"></div><div class="skm-star-label" style="transform: translateX(40px);">Leadership</div></div>
+                    <div class="skm-star-node major" style="left: 150px; top: 120px;"><div class="skm-star-core"></div><div class="skm-star-label" style="margin-left:55px">Système</div></div>
+                    <div class="skm-star-node minor" style="left: 160px; top: 160px;"><div class="skm-star-core"></div><div class="skm-star-label" style="margin-left:50px">Réseau</div></div>
+                    <div class="skm-star-node medium" style="left: 180px; top: 210px;"><div class="skm-star-core"></div><div class="skm-star-label" style="margin-left:50px">Crypto</div></div>
+                    <div class="skm-star-node minor" style="left: 140px; top: 270px;"><div class="skm-star-core"></div><div class="skm-star-label" style="margin-top:10px">3D</div></div>
+                    <div class="skm-star-node major" style="left: 80px; top: 220px;"><div class="skm-star-core"></div><div class="skm-star-label" style="margin-left:-75px; font-weight:bold">Détermination</div></div>
+                </div>
+
+                <div class="skm-divider" style="margin-top: 15px;">
+                    <span class="skm-div-line"></span>
+                    <span class="skm-div-gem">◆</span>
+                    <span class="skm-div-line"></span>
+                </div>
+
+                <div class="skm-footer" style="text-align: center; margin-top: 10px;">
+                    <span class="skm-close-hint">[ÉCHAP] pour fermer</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="lego" class="hidden-interface" style="display: none;">  
-        <img src="img/lego.gif"></div>
+
+
+    <div id="academic-projects" class="hidden-interface" style="display: none; pointer-events: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%; height: 100%; padding: 40px;">
+            
+            <div id="card-elec" style="pointer-events: all; background: rgba(0,0,0,0.8); border: 1px solid #60cdff; border-radius: 8px; padding: 20px; width: 300px; color: white; cursor: pointer; transition: transform 0.2s;">
+                <h3 style="color: #60cdff; margin-bottom: 10px;">🔌 Châssis Électronique</h3>
+                <p style="font-size: 13px; color: #ccc;">Survolez cette carte pour voir la vue éclatée de la structure et des composants.</p>
+            </div>
+
+            <div id="card-lego" style="pointer-events: all; background: rgba(0,0,0,0.8); border: 1px solid #e3000b; border-radius: 8px; padding: 20px; width: 300px; color: white; cursor: pointer; transition: transform 0.2s;">
+                <h3 style="color: #e3000b; margin-bottom: 10px;">🛸 Star Destroyer (Lego)</h3>
+                <p style="font-size: 13px; color: #ccc;">Survolez cette carte pour analyser l'assemblage des blocs du vaisseau.</p>
+            </div>
+
+        </div>
+        
+        <button id="close-academic" style="pointer-events: all; position: absolute; top: 20px; right: 20px; background: #ff4444; color: white; border: none; border-radius: 5px; padding: 8px 15px; cursor: pointer; font-size: 16px;">✕ Fermer</button>
+
     </div>
-    <div id="elec" class="hidden-interface" style="display: none;">  
-        <img src="img/elec.gif"></div>
-    </div>
+
+
     <script type="importmap">
         {
             "imports": {
