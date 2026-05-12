@@ -110,7 +110,7 @@ export function loadRoomAndEnvironment(scene, camera, renderer) {
 // 1. Charger le HDR
     const rgbeLoader = new RGBELoader();
     
-    console.log("▶️ Début du chargement du fichier HDRI...");
+    // console.log("▶️ Début du chargement du fichier HDRI...");
 
     rgbeLoader.load(
         'river_alcove_1k.hdr', 

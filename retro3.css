@@ -125,3 +125,68 @@
     70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 }
+
+.instructions {
+    position: absolute;
+    bottom: 20px; /* Aligné en bas */
+    left: 100px;   /* Aligné à gauche */
+    width: 320px; /* Largeur fixe pour faire un joli bloc */
+    background-color: rgba(15, 15, 20, 0.7); /* Noir un peu bleuté et transparent */
+    backdrop-filter: blur(8px); /* Effet verre dépoli moderne */
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: sans-serif;
+    font-size: 10px;
+    z-index: 100; /* Toujours au-dessus de la 3D */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.instructions h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #003b57; /* Le même bleu que tes autres interfaces */
+}
+
+.instructions p {
+    margin: 5px 0 10px 0;
+    line-height: 1.5;
+    color: #cccccc;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 15px 0;
+}
+
+.legend-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.legend-list li {
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+/* Le petit bouton croix pour fermer */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #aaaaaa;
+    font-size: 15px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #ffffff;
+}

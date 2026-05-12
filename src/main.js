@@ -25,6 +25,15 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth * pixelScale, window.innerHeight * pixelScale, false);
 });
 
+
+const closeInstructionsBtn = document.getElementById('close-instructions');
+if (closeInstructionsBtn) {
+    closeInstructionsBtn.addEventListener('click', () => {
+        const instructionsDiv = document.getElementById('instructions');
+        // On la fait disparaître doucement ou d'un coup
+        instructionsDiv.style.display = 'none'; 
+    });
+}
 function updateMarkers() {
     // Si on est focus sur un objet (la caméra a zoomé), on cache les marqueurs
     if (cameraMovement.currentObject || !roomObject) {
