@@ -25,20 +25,15 @@ export function animateSwordToPosition(targetPos) {
     const startPos = swordMesh.position.clone();
     const startRot = swordMesh.rotation.clone();
     
-    // --- NOUVEAU : CALCUL DES ANGLES CIBLES ---
-    // 1. On part de la rotation initiale
-    const targetEuler = startRot.clone();
-    
-    // 2. On tourne de 90 degrés (Math.PI / 2) pour la mettre FACE à toi.
-    // 💡 Astuce : Si on voit le mauvais côté de la lame, mets "- Math.PI / 2"
-    targetEuler.y += -Math.PI / 2; 
-    
-    // 3. On incline le pommeau à environ 35 degrés.
-    // 💡 Astuce : Selon l'axe d'exportation de ton modèle 3D, tu devras peut-être 
-    // mettre -35, ou modifier targetEuler.x au lieu de targetEuler.z.
-    targetEuler.z = THREE.MathUtils.degToRad(-35); 
+    // --- NOUVEAU : ROTATION ABSOLUE ---
+    // On n'utilise plus startRot.clone(). On force des angles précis.
+    const targetEuler = new THREE.Euler(
+        0,                            // Axe X : Généralement 0, ou Math.PI/2 si elle pointe vers le sol
+        Math.PI / 4,                  // Axe Y : Tourne l'épée face à la caméra (Ajuste avec -Math.PI/4 ou Math.PI/2 si ce n'est pas le bon côté)
+        THREE.MathUtils.degToRad(-35) // Axe Z : Inclinaison à 35 degrés
+    );
 
-    // On convertit les rotations en Quaternions (la magie pour des rotations 3D parfaites et sans bug)
+    // On convertit les rotations en Quaternions
     const startQuat = new THREE.Quaternion().setFromEuler(startRot);
     const targetQuat = new THREE.Quaternion().setFromEuler(targetEuler);
     
@@ -53,10 +48,10 @@ export function animateSwordToPosition(targetPos) {
             // Courbe d'accélération/décélération (easing)
             const easeProgress = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
             
-            // 1. Déplacement fluide de la position
+            // 1. Déplacement fluide
             swordMesh.position.lerpVectors(startPos, targetPos, easeProgress);
             
-            // 2. Rotation fluide vers l'angle parfait (Slerp)
+            // 2. Rotation fluide
             swordMesh.quaternion.slerpQuaternions(startQuat, targetQuat, easeProgress);
             
             swordAnimation = requestAnimationFrame(animate);
@@ -136,9 +131,9 @@ export function loadRoomAndEnvironment(scene, camera, renderer) {
         (xhr) => {
             // Attention : xhr.total peut être à 0 sur certains serveurs, on gère l'erreur
             if (xhr.total > 0) {
-                console.log(`⏳ HDRI en cours : ${Math.round((xhr.loaded / xhr.total) * 100)}%`);
+                // console.log(` HDRI en cours : ${Math.round((xhr.loaded / xhr.total) * 100)}%`);
             } else {
-                console.log(`⏳ HDRI en cours : ${xhr.loaded} octets téléchargés...`);
+                // console.log(` HDRI en cours : ${xhr.loaded} octets téléchargés...`);
             }
         },
 

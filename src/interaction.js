@@ -68,9 +68,9 @@ export function focusOnObject(targetName, targetMesh) {
             
             // 2. Position calculée sur-mesure : 2 unités devant la caméra, et décalée vers la GAUCHE
             const swordDisplayPos = new THREE.Vector3(
-                targetPos.x - 3.15, 
-                targetPos.y + 4, 
-                targetPos.z - 2.02
+                targetPos.x - 10, 
+                targetPos.y - 10, 
+                targetPos.z - 15
             );
             
             animateSwordToPosition(swordDisplayPos);

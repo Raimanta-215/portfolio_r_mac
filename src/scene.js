@@ -27,14 +27,14 @@ document.body.appendChild(renderer.domElement);
 
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.15; // Monte à 2.0 ou 3.0 si tout est trop sombre !
+renderer.toneMappingExposure = 0.22; // Monte à 2.0 ou 3.0 si tout est trop sombre !
 
 
 // --- LUMIÈRES : AMBIANCE SOLEIL COUCHANT ---
 
 // 1. La lumière d'ambiance (Les ombres)
 // Au coucher du soleil, les ombres ne sont pas noires, mais légèrement bleutées/violacées.
-const ambientLight = new THREE.AmbientLight(0x101015, 0.002); 
+const ambientLight = new THREE.AmbientLight(0x101015, 0.01); 
 scene.add(ambientLight);
 
 // // 2. Le Soleil (DirectionalLight)
