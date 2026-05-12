@@ -55,6 +55,41 @@ transition: background 0.12s;
 .w11-desk-icon .ico { font-size: 28px; line-height: 1; }
 .w11-desk-icon .lbl { font-size: 10px; color: #fff; text-align: center; line-height: 1.3; text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
 
+/* Cartes grille du panneau contenu */
+.w11-app-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.w11-app-card:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
+
+.w11-app-card img {
+  width: 42px;
+  height: 42px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.w11-app-card span {
+  font-size: 11px;
+  color: #1a1a1a;
+  text-align: center;
+  line-height: 1.2;
+}
+
 /* === FENÊTRE === */
 #win11-window {
 position: absolute;
@@ -138,7 +173,7 @@ padding: 0 7px; font-size: 11px; color: #888; display: flex; align-items: center
 
 /* Nav gauche */
 .w11-nav-pane {
-width: 180px; flex-shrink: 0;
+width: 125px; flex-shrink: 0;
 background: rgba(243,243,243,0.60);
 border-right: 1px solid rgba(0,0,0,0.07);
 overflow-y: auto; padding: 6px 0;
@@ -178,7 +213,7 @@ padding: 2px 7px; border-radius: 10px; color: #fff; white-space: nowrap;
 
 /* Panneau détail */
 .w11-detail {
-width: 190px; flex-shrink: 0;
+width: 140px; flex-shrink: 0;
 background: rgba(243,243,243,0.55);
 border-left: 1px solid rgba(0,0,0,0.07);
 padding: 10px; overflow-y: auto;
@@ -631,3 +666,7 @@ padding: 7px 3px; border-radius: 6px; cursor: pointer; transition: background 0.
     opacity: 1;
     bottom: 160%;
 }
+
+.w11-pill.electronique { background: #0078d4; }
+.w11-pill.développement { background: #6037a3; }
+.w11-pill.infographie   { background: #107c10; }

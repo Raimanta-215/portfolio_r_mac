@@ -194,7 +194,7 @@ canvas {
     height: 21px;
     font-size: 10px;
     font-weight: bold;
-    font-family: "Marlett", "Webdings", "Tahoma", sans-serif;
+    font-family: "Marlett", "Tahoma", sans-serif;
     cursor: pointer;
     border-top:    1px solid var(--w2k-border-lt);
     border-left:   1px solid var(--w2k-border-lt);

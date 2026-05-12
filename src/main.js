@@ -10,7 +10,6 @@ import { DragControls } from 'three/addons/controls/DragControls.js';
 
 // Lancement du téléchargement de la chambre 3D
 loadRoomAndEnvironment(scene, camera, renderer);
-
 // Initialisation des clics 
 setupInteractions(scene, camera);
 setupActionButtons();
@@ -23,42 +22,7 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth * pixelScale, window.innerHeight * pixelScale, false);
 });
 
-// Ajouter des boutons de fermeture aux divs GIF
-const gifIds = [ 'academic-projects', 'sword', 'parkour'];
-gifIds.forEach(id => {
-    const div = document.getElementById(id);
-    if (div) {
-        const closeBtn = document.createElement('button');
-        closeBtn.textContent = '✕';
-        closeBtn.style.position = 'absolute';
-        closeBtn.style.top = '10px';
-        closeBtn.style.right = '10px';
-        closeBtn.style.backgroundColor = '#ff4444';
-        closeBtn.style.color = 'white';
-        closeBtn.style.border = 'none';
-        closeBtn.style.borderRadius = '5px';
-        closeBtn.style.padding = '5px 10px';
-        closeBtn.style.cursor = 'pointer';
-        closeBtn.style.fontSize = '16px';
-        closeBtn.style.zIndex = '100001';
-        closeBtn.addEventListener('click', () => {
-            div.style.display = 'none';
-            cameraMovement.currentObject = null;
-            cameraMovement.target = new THREE.Vector3(-15, 10, -18);
-            cameraMovement.lookAt.set(-1, 4.8, -1.5);
-            if (id === 'sword') resetSwordPosition();
-            if (id === 'academic-projects') resetAcademicMinigame();
-        });
-        
-        const skyrimWindow = div.querySelector('.skyrim-window');
-        if (skyrimWindow) {
-            skyrimWindow.style.position = 'relative';
-            skyrimWindow.appendChild(closeBtn);
-        } else {
-            div.appendChild(closeBtn);
-        }
-    }
-});
+
 
 // ✅ FONCTIONS DU MINI-JEU ACADÉMIQUE RÉPARÉES
 function resetAcademicMinigame() {
@@ -77,8 +41,8 @@ function resetAcademicMinigame() {
     if (isDragActive && toggleDragBtn) {
         isDragActive = false;
         if (dragControls) dragControls.enabled = false;
-        toggleDragBtn.style.background = "#f39c12"; 
-        toggleDragBtn.innerHTML = "🔧 Manipuler les pièces";
+        toggleDragBtn.style.background = "#5c95b0"; 
+        toggleDragBtn.innerHTML = "Faire la TotoMobile";
         explodeState.lego = false;
         explodeState.elec = false;
         
@@ -219,8 +183,8 @@ if (toggleDragBtn) {
             explodeState.lego = false;
             explodeState.elec = false;
             
-            toggleDragBtn.style.background = "#27ae60"; 
-            toggleDragBtn.innerHTML = "✋ Stopper Manipulation";
+            toggleDragBtn.style.background = "#872e1e"; 
+            toggleDragBtn.innerHTML = "Prendre une pause";
 
             // DISPARITION TOTALE POUR NE PAS GÊNER
             if(ce) ce.style.display = "none";
@@ -229,8 +193,8 @@ if (toggleDragBtn) {
             explodeState.lego = false;
             explodeState.elec = false;
 
-            toggleDragBtn.style.background = "#f39c12"; 
-            toggleDragBtn.innerHTML = "🔧 Manipuler les pièces";
+            toggleDragBtn.style.background = "#5c95b0"; 
+            toggleDragBtn.innerHTML = "Faire la TotoMobile";
 
             // RÉAPPARITION EN MODE STANDBY
             if(ce) {
@@ -411,5 +375,8 @@ document.addEventListener('keydown', (event) => {
         document.dispatchEvent(new CustomEvent('skyrim:closed'));
     }
 });
+
+camera.lookAt(-1 , 4.8, -1.5); // S'assure que la caméra regarde le centre de la pièce dès le départ
+
 
 animate();

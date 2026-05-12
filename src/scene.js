@@ -6,13 +6,12 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 export const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000); // Fond noir pour faire ressortir les couleurs du coucher de soleil
 
-scene.fog = new THREE.Fog(0x000000, 10, 40); // 10 = distance à partir de laquelle le brouillard commence à être visibleQ 35 = distance à laquelle le brouillard devient complètement opaque
-export const camera = new THREE.PerspectiveCamera(47, window.innerWidth / window.innerHeight, 0.1, 1000);
+scene.fog = new THREE.Fog(0x000000, 25, 40); // 10 = distance à partir de laquelle le brouillard commence à être visibleQ 35 = distance à laquelle le brouillard devient complètement opaque
+export const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1000);
 // Essaye ces valeurs pour être "dans" la chambre et voir le sol
 camera.position.set(-15, 10, -18); // (x, y, z) - Ajuste selon ta chambre
-// Force la caméra à regarder le centre de la pièce
-camera.lookAt(-1.5 ,5, -1.5);
 
+camera.lookAt(-1 , 4.8, -1.5);
 export const renderer = new THREE.WebGLRenderer({ antialias: false });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -28,14 +27,14 @@ document.body.appendChild(renderer.domElement);
 
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 0.35; // Monte à 2.0 ou 3.0 si tout est trop sombre !
+renderer.toneMappingExposure = 0.15; // Monte à 2.0 ou 3.0 si tout est trop sombre !
 
 
 // --- LUMIÈRES : AMBIANCE SOLEIL COUCHANT ---
 
 // 1. La lumière d'ambiance (Les ombres)
 // Au coucher du soleil, les ombres ne sont pas noires, mais légèrement bleutées/violacées.
-const ambientLight = new THREE.AmbientLight(0x101015, 0.02); 
+const ambientLight = new THREE.AmbientLight(0x101015, 0.002); 
 scene.add(ambientLight);
 
 // // 2. Le Soleil (DirectionalLight)
@@ -54,18 +53,18 @@ scene.add(ambientLight);
 
 // --- CONTRÔLES SOURIS ---
 export const controls = new OrbitControls(camera, renderer.domElement);
+controls.enabled = false;
 controls.enableDamping = true;
 
+controls.target.set(-1, 4.8, -1.5);
 
-// // --- L'ASSISTANT MAGIQUE POUR LA LUMIÈRE ---
-// // Le chiffre 2 à la fin, c'est la taille du dessin (tu peux l'agrandir)
+
+
 // const lightHelper = new THREE.DirectionalLightHelper(sunLight, 5);
 // scene.add(lightHelper);
 
-// --- LA BOUSSOLE 3D ---
-// Le chiffre 5 correspond à la longueur des lignes en mètres
-const axesHelper = new THREE.AxesHelper(20);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(20);
+// scene.add(axesHelper);
 
 // --- scene.js (suite) ---
 
@@ -80,15 +79,14 @@ scene.add(windowBlueLight);
 
 // 4. Lumière NÉON ROUGE par la fenêtre (légèrement décalée pour le contraste)
 const windowRedLight = new THREE.SpotLight(0x87115f, 400, 80, 2);
-// 👉 AJUSTE CES COORDONNÉES pour qu'elle soit proche du bleu mais crée un dégradé
 windowRedLight.position.set(-10, 12, -15); 
 windowRedLight.castShadow = true;
 scene.add(windowRedLight);
 
 // -- HELPERS pour visualiser la position des lumières néons --
 // (À enlever une fois que tu as trouvé la bonne position)
-scene.add(new THREE.PointLightHelper(windowBlueLight, 1));
-scene.add(new THREE.PointLightHelper(windowRedLight, 1));
+//scene.add(new THREE.PointLightHelper(windowBlueLight, 1));
+//scene.add(new THREE.PointLightHelper(windowRedLight, 1));
 
 
 renderer.shadowMap.enabled = true;

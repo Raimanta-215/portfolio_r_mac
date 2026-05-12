@@ -101,16 +101,16 @@ export function loadRoomAndEnvironment(scene, camera, renderer) {
         
         // Fonction 1 : SUCCÈS (Le fichier a été trouvé et lu)
         (texture) => {
-            console.log("✅ HDRI téléchargé avec succès !");
+            // console.log("✅ HDRI téléchargé avec succès !");
             texture.mapping = THREE.EquirectangularReflectionMapping;
             
             // Applique les reflets sur la chambre
             scene.environment = texture;
-            console.log("✅ scene.environment appliqué (Les meubles vont briller).");
+            // console.log("✅ scene.environment appliqué (Les meubles vont briller).");
             
             // SI TU VEUX VOIR L'IMAGE EN FOND, remets cette ligne :
             scene.background = texture; 
-            console.log("✅ scene.background appliqué (Tu devrais voir le ciel derrière).");
+            // console.log("✅ scene.background appliqué (Tu devrais voir le ciel derrière).");
             
             // On garde l'intensité basse pour ton coucher de soleil
             scene.environmentIntensity = 0.05; 
