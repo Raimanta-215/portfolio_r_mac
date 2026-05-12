@@ -7,10 +7,10 @@ export function setupActionButtons() {
     buttons.forEach(button => {
         button.addEventListener('click', () => {
             const targetName = button.getAttribute('data-target');
-            console.log(`Bouton HTML cliqué : ${targetName}`);
+            // console.log(`Bouton HTML cliqué : ${targetName}`);
             
             if (!roomObject) {
-                console.warn("La chambre n'est pas encore chargée !");
+                // console.warn("La chambre n'est pas encore chargée !");
                 return;
             }
 
@@ -19,7 +19,7 @@ export function setupActionButtons() {
             if (targetMesh) {
                 focusOnObject(targetName, targetMesh);
             } else {
-                console.warn(`Cible 3D inconnue dans la scène : ${targetName}`);
+                // console.warn(`Cible 3D inconnue dans la scène : ${targetName}`);
             }
         });
     });

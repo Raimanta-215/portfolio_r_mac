@@ -76,7 +76,7 @@ export function focusOnObject(targetName, targetMesh) {
             animateSwordToPosition(swordDisplayPos);
             break;
         default:
-            console.log(`Cible 3D non gérée pour la caméra : ${targetName}`);
+            // console.log(`Cible 3D non gérée pour la caméra : ${targetName}`);
     }
 }
 
@@ -111,13 +111,13 @@ export function setupInteractions(scene, camera) {
                 if (foundInteractiveName && targetMesh) {
                     const targetPos = new THREE.Vector3();
                     targetMesh.getWorldPosition(targetPos);
-                    console.log("Cible interactive détectée (Clic 3D) :", foundInteractiveName);
-                    console.log("Position de l'objet interactif :", { x: targetPos.x.toFixed(2), y: targetPos.y.toFixed(2), z: targetPos.z.toFixed(2) });
+                    // console.log("Cible interactive détectée (Clic 3D) :", foundInteractiveName);
+                    // console.log("Position de l'objet interactif :", { x: targetPos.x.toFixed(2), y: targetPos.y.toFixed(2), z: targetPos.z.toFixed(2) });
                     // ✅ On appelle la fonction centrale !
                     focusOnObject(foundInteractiveName, targetMesh);
                 } else {
-                    console.log("Clic ignoré. Objet touché :", clickedMesh.name);
-                    console.log("Position :", { x: clickedPos.x.toFixed(2), y: clickedPos.y.toFixed(2), z: clickedPos.z.toFixed(2) });
+                    // console.log("Clic ignoré. Objet touché :", clickedMesh.name);
+                    // console.log("Position :", { x: clickedPos.x.toFixed(2), y: clickedPos.y.toFixed(2), z: clickedPos.z.toFixed(2) });
                 }
             }
         }

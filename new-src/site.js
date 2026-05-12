@@ -204,7 +204,7 @@ description: `
     `    }
 ];
 
-console.log('%c site.js chargé', 'color: #38bdf8; font-weight: bold;');
+// console.log('%c site.js chargé', 'color: #38bdf8; font-weight: bold;');
 
 // --- AFFICHAGE DANS LE TABLEAU ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -248,7 +248,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Message console
-    console.log("%c Port Scan: OK | Firewall: ACTIVE | Connection: SECURE", "color: #00ff00; font-weight: bold; background: #000; padding: 5px;");
 });
 
 // --- CHAT GIF BOT ---
