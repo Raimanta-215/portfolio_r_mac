@@ -14,6 +14,9 @@ loadRoomAndEnvironment(scene, camera, renderer);
 setupInteractions(scene, camera);
 setupActionButtons();
 
+
+const markers = {};
+const markersContainer = document.getElementById('markers-container');
 // Gestion du redimensionnement
 window.addEventListener('resize', () => {
     const pixelScale = 0.5;
@@ -22,7 +25,59 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth * pixelScale, window.innerHeight * pixelScale, false);
 });
 
+function updateMarkers() {
+    // Si on est focus sur un objet (la caméra a zoomé), on cache les marqueurs
+    if (cameraMovement.currentObject || !roomObject) {
+        markersContainer.style.opacity = '0';
+        return;
+    } else {
+        markersContainer.style.opacity = '1';
+    }
 
+    // Liste des objets sur lesquels tu veux un marqueur visuel
+    const markerTargets = [
+        { name: 'MonitorOn_MonitorOn_0', offset: { x: 0, y: 1, z: 0 } }, // offset pour le mettre au dessus de l'écran
+        { name: 'Object_7', offset: { x: 0, y: 0.5, z: 0 } }, // Ordi portable
+        { name: 'Chassi_Material004_0', offset: { x: 0, y: 0, z: 0 } }, // Projets académiques
+        {name : 'Star_Destroyer_Light_Gray_0', offset: { x: 0, y: 0, z: 0 } }, // Projets académiques (partie 2)
+        { name: 'Plane034_01_-_Default_0', offset: { x: 0, y: 0.5, z: 0 } }, // Épée
+        { name: 'defaultMaterial007_2', offset: { x: 0, y: 0.5, z: 0 } }
+    ];
+
+    markerTargets.forEach(target => {
+        const mesh = roomObject.getObjectByName(target.name);
+        if (mesh) {
+            // Créer le marqueur s'il n'existe pas encore
+            if (!markers[target.name]) {
+                const el = document.createElement('div');
+                el.className = 'interactive-marker';
+                markersContainer.appendChild(el);
+                markers[target.name] = el;
+            }
+
+            // Calculer la position 3D avec l'offset
+            const vector = new THREE.Vector3();
+            mesh.getWorldPosition(vector);
+            vector.x += target.offset.x;
+            vector.y += target.offset.y;
+            vector.z += target.offset.z;
+
+            // Projeter en 2D sur l'écran
+            vector.project(camera);
+
+            // Ne l'afficher que s'il est devant la caméra (vector.z < 1)
+            if (vector.z < 1) {
+                const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (-vector.y * 0.5 + 0.5) * window.innerHeight;
+                markers[target.name].style.display = 'block';
+                markers[target.name].style.left = `${x}px`;
+                markers[target.name].style.top = `${y}px`;
+            } else {
+                markers[target.name].style.display = 'none';
+            }
+        }
+    });
+}
 
 // ✅ FONCTIONS DU MINI-JEU ACADÉMIQUE RÉPARÉES
 function resetAcademicMinigame() {
@@ -347,6 +402,8 @@ function animate() {
         }
     }
 
+
+    updateMarkers();
     renderer.render(scene, camera);
 }
 

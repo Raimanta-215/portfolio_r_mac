@@ -15,16 +15,33 @@ let swordAnimation = null;
 export function animateSwordToPosition(targetPos) {
     if (!swordMesh) return;
     
-    // ✅ CORRECTION 1 : Empêche l'épée de disparaître par erreur
+    // Empêche l'épée de disparaître par erreur
     swordMesh.frustumCulled = false; 
-    
     swordMesh.material.depthTest = false;
     swordMesh.renderOrder = 999;
-    // Arrêter l'animation précédente si elle existe
+    
     if (swordAnimation) cancelAnimationFrame(swordAnimation);
     
     const startPos = swordMesh.position.clone();
     const startRot = swordMesh.rotation.clone();
+    
+    // --- NOUVEAU : CALCUL DES ANGLES CIBLES ---
+    // 1. On part de la rotation initiale
+    const targetEuler = startRot.clone();
+    
+    // 2. On tourne de 90 degrés (Math.PI / 2) pour la mettre FACE à toi.
+    // 💡 Astuce : Si on voit le mauvais côté de la lame, mets "- Math.PI / 2"
+    targetEuler.y += -Math.PI / 2; 
+    
+    // 3. On incline le pommeau à environ 35 degrés.
+    // 💡 Astuce : Selon l'axe d'exportation de ton modèle 3D, tu devras peut-être 
+    // mettre -35, ou modifier targetEuler.x au lieu de targetEuler.z.
+    targetEuler.z = THREE.MathUtils.degToRad(-35); 
+
+    // On convertit les rotations en Quaternions (la magie pour des rotations 3D parfaites et sans bug)
+    const startQuat = new THREE.Quaternion().setFromEuler(startRot);
+    const targetQuat = new THREE.Quaternion().setFromEuler(targetEuler);
+    
     const duration = 1000; // 1 seconde pour le trajet
     const startTime = Date.now();
     
@@ -32,22 +49,21 @@ export function animateSwordToPosition(targetPos) {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
         
-        // Déplacement : s'arrête quand progress atteint 1
         if (progress < 1) {
+            // Courbe d'accélération/décélération (easing)
             const easeProgress = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
-            // On utilise lerpVectors pour calculer le trajet exact entre start et target
+            
+            // 1. Déplacement fluide de la position
             swordMesh.position.lerpVectors(startPos, targetPos, easeProgress);
             
-            // ✅ ROTATION : S'exécute seulement pendant le déplacement
-            swordMesh.rotation.y += 0.02; // Tourne sur elle-même doucement
-            swordMesh.rotation.z = Math.PI / 4; // Reste penchée à 45 degrés (oblique)
+            // 2. Rotation fluide vers l'angle parfait (Slerp)
+            swordMesh.quaternion.slerpQuaternions(startQuat, targetQuat, easeProgress);
             
             swordAnimation = requestAnimationFrame(animate);
         } else {
-            // ✅ UNE FOIS ARRIVÉE : On arrête l'animation et on fixe la rotation finale
+            // UNE FOIS ARRIVÉE : On fixe la position et la rotation de manière exacte
             swordMesh.position.copy(targetPos);
-            swordMesh.rotation.y = startRot.y;
-            swordMesh.rotation.z = Math.PI / 4; // Garde l'angle final
+            swordMesh.quaternion.copy(targetQuat);
         }
     };
     
