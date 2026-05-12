@@ -200,7 +200,7 @@
     height: 45px;
     background: rgba(15, 15, 20, 0.8);
     border-radius: 10%;
-    color: white;
+    color: rgba(255, 255, 255, 0.356);
     font-size: 28px;
     font-weight: bold;
     display: flex;
