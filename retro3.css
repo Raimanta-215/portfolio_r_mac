@@ -190,3 +190,32 @@
 .close-btn:hover {
     color: #ffffff;
 }
+
+/* Bouton X pour fermer les interfaces sur mobile et PC */
+.mobile-close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+    background: rgba(15, 15, 20, 0.8);
+    border-radius: 10%;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000; /* Toujours au premier plan */
+    backdrop-filter: blur(5px);
+    pointer-events: all !important; /* Très important pour le clic */
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-close-btn:hover {
+    background: rgba(202, 124, 124, 0.8);
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.8);
+}

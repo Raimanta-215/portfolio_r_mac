@@ -25,7 +25,33 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth * pixelScale, window.innerHeight * pixelScale, false);
 });
 
+// --- FERMETURE DE L'ÉPÉE ---
+const closeSwordBtn = document.getElementById('close-sword');
+if (closeSwordBtn) {
+    closeSwordBtn.addEventListener('click', () => {
+        document.getElementById('sword').style.display = 'none';
+        resetSwordPosition();
+        cameraMovement.currentObject = null;
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+        cameraMovement.lookAt.set(-1, 4.8, -1.5);
+    });
+}
 
+// --- FERMETURE DE LA CARTE SKYRIM ---
+const closeParkourBtn = document.getElementById('close-parkour');
+if (closeParkourBtn) {
+    closeParkourBtn.addEventListener('click', () => {
+        const parkourInterface = document.getElementById('parkour');
+        if (parkourInterface) parkourInterface.style.display = 'none';
+        
+        // S'assurer que le menu Skyrim est bien fermé globalement
+        document.dispatchEvent(new CustomEvent('skyrim:closed'));
+        
+        cameraMovement.currentObject = null;
+        cameraMovement.target = new THREE.Vector3(-15, 10, -18);
+        cameraMovement.lookAt.set(-1, 4.8, -1.5);
+    });
+}
 const closeInstructionsBtn = document.getElementById('close-instructions');
 if (closeInstructionsBtn) {
     closeInstructionsBtn.addEventListener('click', () => {
